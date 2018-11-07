@@ -1,9 +1,10 @@
 {
-  "name": "edv3",
+  "name": "emaildesigner",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
     "react": "^16.6.1",
+    "react-beautiful-dnd": "^9.0.2",
     "react-dom": "^16.6.1",
     "react-scripts": "2.1.1"
   },
@@ -21,5 +22,26 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ]
+  ],
+  "description": "This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).",
+  "main": "index.js",
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/soheilhm/emaildesigner.git"
+  },
+  "keywords": [
+    "emaildesigner",
+    "dragndrop",
+    "html5",
+    "email",
+    "markup",
+    "cms"
+  ],
+  "author": "Soheil Hajimohammadi",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/soheilhm/emaildesigner/issues"
+  },
+  "homepage": "https://github.com/soheilhm/emaildesigner#readme"
 }
