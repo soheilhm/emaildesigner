@@ -4,11 +4,8 @@
   "private": true,
   "dependencies": {
     "react": "^16.6.1",
-    "react-beautiful-dnd": "^9.0.2",
     "react-dom": "^16.6.1",
-    "react-dragula": "^1.1.17",
-    "react-scripts": "2.1.1",
-    "react-sortable-hoc": "^0.8.3"
+    "react-scripts": "2.1.1"
   },
   "scripts": {
     "start": "react-scripts start",
