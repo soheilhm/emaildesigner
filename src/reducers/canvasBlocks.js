@@ -112,7 +112,7 @@ const canvasBlocks = (state = initialCustomizedBlocks, action) => {
                     ];
                 }
             */
-            return [...state.reverse()];
+            return state;
         default:
             return state;
     }

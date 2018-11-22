@@ -4,7 +4,8 @@ import * as canvasActions from '../../actions/index';
 
 class Canvas extends Component {
     state = {
-        dropZonesVisible: false
+        dropZonesVisible: false,
+        highlightedDropZoneID: null
     }
 
     _duplicateBlock(block) {
@@ -23,10 +24,8 @@ class Canvas extends Component {
         this.props.dispatch(canvasActions.removeBlock(block));
     }
 
-    _dragStart(event, blockIdx) {
+    _dragStart(blockIdx) {
         this.draggedBlockIdx = blockIdx;
-        event.dataTransfer.effectAllowed = 'move';
-        event.dataTransfer.setData('text/html', event.currentTarget);
         document.getElementById(`container-${blockIdx}`).style.opacity = 0.1;
     }
 
@@ -34,8 +33,10 @@ class Canvas extends Component {
         const { draggedBlockIdx, droppedPosition, droppedBlockIdx } = this;
         document.getElementById(`container-${blockIdx}`).style.opacity = 1;
         this.props.dispatch(canvasActions.swapBlocks({ draggedBlockIdx, droppedPosition, droppedBlockIdx }));
-        this.setState((state, props) => {
+        this.setState((state) => {
             return {
+                ...state,
+                highlightedDropZoneID: null,
                 dropZonesVisible: false
             }
         });
@@ -45,15 +46,23 @@ class Canvas extends Component {
         event.preventDefault();
         this.droppedPosition = position;
         this.droppedBlockIdx = blockIdx;
+        this.setState((state) => {
+            return {
+                ...state,
+                highlightedDropZoneID: `${position}-${blockIdx}`
+            }
+        });
     }
 
     _showDropZones() {
-        this.setState((state, props) => {
+        this.setState((state) => {
             return {
+                ...state,
                 dropZonesVisible: true
             }
         });
     }
+
 
     render() {
         return (
@@ -61,17 +70,26 @@ class Canvas extends Component {
                 <h3 style={{ padding: '10px' }}>Canvas</h3>
                 <ul onDragOver={this._showDropZones.bind(this)} >
                     {this.props.currBlocks.map((block) => (
-                        <div key={block.index} id={`container-${block.index}`} style={{ margin: '0 0 10px' }}>
+                        <div key={block.index} id={`container-${block.index}`} style={{ margin: '1px' }}>
                             <div
+                                id={`before-${block.index}`}
                                 onDragOver={(event) => this._dragOver(event, 'before', block.index)}
-                                style={{ display: this.state.dropZonesVisible ? 'block' : 'none', opacity: '0.5', lineHeight: '5px', padding: '2px 0', margin: '0', border: '2px dashed orange', backgroundColor: "yellow" }}
+                                style={{
+                                    display: this.state.dropZonesVisible ? 'block' : 'none',
+                                    opacity: this.state.highlightedDropZoneID === `before-${block.index}` ? 1 : 0.5,
+                                    padding: '2px 0',
+                                    lineHeight: '2px',
+                                    margin: '0',
+                                    border: this.state.highlightedDropZoneID === `before-${block.index}` ? '4px dashed orange' : '4px dashed lightgray',
+                                    backgroundColor: this.state.highlightedDropZoneID === `before-${block.index}` ? 'yellow' : "lightgoldenrodyellow"
+                                }}
                             >
                                 <p style={{ textAlign: 'center' }}>DROP HERE</p>
                             </div>
                             <div
-                                style={{ padding: '20px 10px', border: '5px dashed #51d1fb', cursor: 'move', backgroundColor: block.color }}
+                                style={{ padding: '20px 10px', border: '4px dashed #51d1fb', cursor: 'move', backgroundColor: block.color }}
                                 draggable='true'
-                                onDragStart={(event) => this._dragStart(event, block.index)}
+                                onDragStart={(event) => this._dragStart(block.index)}
                                 onDragEnd={() => this._dragEnd(block.index)}
                             >
                                 <li style={{ display: 'inline-block', width: '55%' }}>{block.content}</li>
@@ -83,8 +101,17 @@ class Canvas extends Component {
                                 </div>
                             </div>
                             <div
+                                id={`after-${block.index}`}
                                 onDragOver={(event) => this._dragOver(event, 'after', block.index)}
-                                style={{ display: this.state.dropZonesVisible ? 'block' : 'none', opacity: '0.5', lineHeight: '5px', padding: '2px 0', margin: '0', border: '2px dashed orange', backgroundColor: "yellow" }}
+                                style={{
+                                    display: this.state.dropZonesVisible ? 'block' : 'none',
+                                    opacity: this.state.highlightedDropZoneID === `after-${block.index}` ? 1 : 0.5,
+                                    padding: '2px 0',
+                                    lineHeight: '2px',
+                                    margin: '0',
+                                    border: this.state.highlightedDropZoneID === `after-${block.index}` ? '4px dashed orange' : '4px dashed lightgray',
+                                    backgroundColor: this.state.highlightedDropZoneID === `after-${block.index}` ? 'yellow' : "lightgoldenrodyellow"
+                                }}
                             >
                                 <p style={{ textAlign: 'center' }}>DROP HERE</p>
                             </div>
