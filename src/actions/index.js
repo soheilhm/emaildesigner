@@ -6,3 +6,4 @@ export const duplicateBlock = createAction(types.DUPLICATE_BLOCK, data => (data)
 export const removeBlock = createAction(types.REMOVE_BLOCK, data => (data));
 export const moveUpBlock = createAction(types.MOVE_UP_BLOCK, data => (data));
 export const moveDownBlock = createAction(types.MOVE_DOWN_BLOCK, data => (data));
+export const swapBlocks = createAction(types.SWAP_BLOCKS, data => (data));
