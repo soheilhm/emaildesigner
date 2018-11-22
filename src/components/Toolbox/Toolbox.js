@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import generateID from '../../common/uuid';
+import { connect } from 'react-redux';
+import * as canvasActions from '../../actions/index';
 
 function getRandomColor() {
     const letters = '0123456789ABCDEF';
@@ -41,11 +42,7 @@ class Toolbox extends Component {
     };
 
     _addBlock(block) {
-        this.props.onBlockAdd({
-            ...block,
-            index: generateID(),
-            color: getRandomColor()
-        });
+        this.props.dispatch(canvasActions.addBlock(block));
     }
 
     render() {
@@ -64,4 +61,5 @@ class Toolbox extends Component {
         );
     }
 }
-export default Toolbox;
+
+export default connect()(Toolbox);

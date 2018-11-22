@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import generateID from '../../common/uuid';
-
+import { connect } from 'react-redux';
+import * as canvasActions from '../../actions/index';
 class Canvas extends Component {
     state = {
         currBlocks: []
@@ -26,63 +26,20 @@ class Canvas extends Component {
     }
 
     _duplicateBlock(block) {
-        this.setState((prevState, props) => {
-            const idx = prevState.currBlocks.indexOf(block);
-            return {
-                currBlocks: [
-                    ...prevState.currBlocks.slice(0, idx),
-                    {...block, index: generateID() },
-                    ...prevState.currBlocks.slice(idx)
-                ]
-            }
-        });
+        this.props.dispatch(canvasActions.duplicateBlock(block));
     }
 
     _moveUpBlock(block) {
-        this.setState((prevState, props) => {
-            const idx = prevState.currBlocks.indexOf(block);
-            if (idx === 0) {
-                return { currBlocks: [...prevState.currBlocks] };
-            }
-
-            const prevBlock = prevState.currBlocks[idx - 1];
-            return {
-                currBlocks: [
-                    ...prevState.currBlocks.slice(0, idx - 1),
-                    {...block, index: generateID() },
-                    {...prevBlock, index: generateID() },
-                    ...prevState.currBlocks.slice(idx + 1)
-                ]
-            }
-        });
+        this.props.dispatch(canvasActions.moveUpBlock(block));
     }
 
     _moveDownBlock(block) {
-        this.setState((prevState, props) => {
-            const idx = prevState.currBlocks.indexOf(block);
-            if (idx === prevState.currBlocks.length - 1) {
-                return { currBlocks: [...prevState.currBlocks] };
-            }
-
-            const nextBlock = prevState.currBlocks[idx + 1];
-            return {
-                currBlocks: [
-                    ...prevState.currBlocks.slice(0, idx),
-                    {...nextBlock, index: generateID() },
-                    {...block, index: generateID() },
-                    ...prevState.currBlocks.slice(idx + 2)
-                ]
-            }
-        });
+        this.props.dispatch(canvasActions.moveDownBlock(block));
     }
 
 
     _removeBlock(block) {
-        this.setState((prevState, props) => {
-            return {
-                currBlocks: prevState.currBlocks.filter((elm) => elm !== block)
-            }
-        });
+        this.props.dispatch(canvasActions.removeBlock(block));
     }
 
     render() {
@@ -90,7 +47,7 @@ class Canvas extends Component {
             <div className="canvas" style={{ width: '65%', backgroundColor: 'lightgray', float: 'right'}} >
                 <h3 style={{padding: '10px'}}>Canvas</h3>
                 <ul>
-                    {this.state.currBlocks.map((block, index) => (
+                    {this.props.currBlocks.map((block) => (
                         <div key={block.index} style={{padding: '10px',margin: '10px 0', border: '2px dashed #51d1fb', backgroundColor: block.color}}>
                             <li style={{display: 'inline-block', width: '55%'}}>{block.content}</li>
                             <button onClick={this._duplicateBlock.bind(this, block)} style={{display: 'inline-block', padding: '5px', margin: '0 5px'}}>Duplicate</button>
@@ -105,6 +62,11 @@ class Canvas extends Component {
         );
     }
 }
-export default Canvas;
+
+const mapStateToProps = state => {
+    return { currBlocks: state.canvasBlocks.present };
+};
+
+export default connect(mapStateToProps)(Canvas);
 
 
