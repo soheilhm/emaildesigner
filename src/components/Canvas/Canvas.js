@@ -5,7 +5,46 @@ import * as canvasActions from '../../actions/index';
 class Canvas extends Component {
     state = {
         dropZonesVisible: false,
-        highlightedDropZoneID: null
+        highlightedDropZoneID: null,
+        isBlockDragging: false,
+        addedBlockFromToolbox: null,
+        addedBlockFromToolboxStatus: null,
+        draggingBlockFromToolbox: false
+    }
+
+    componentWillReceiveProps(nextProps) {
+        const { addedBlockFromToolbox, addedBlockFromToolboxStatus } = nextProps;
+        if (addedBlockFromToolboxStatus === 'dragStart') {
+            this.setState((state) => {
+                return {
+                    ...state,
+                    isBlockDragging: true,
+                    draggingBlockFromToolbox: true
+                }
+            });
+
+        }
+        if (addedBlockFromToolboxStatus === 'dragEnd') {
+            this.setState((state) => {
+                return {
+                    ...state,
+                    highlightedDropZoneID: null,
+                    dropZonesVisible: false,
+                    isBlockDragging: false,
+                    addedBlockFromToolbox,
+                    addedBlockFromToolboxStatus,
+                    draggingBlockFromToolbox: false
+                }
+            });
+        }
+    }
+
+    componentDidUpdate() {
+        const { addedBlockFromToolbox, addedBlockFromToolboxStatus } = this.state;
+        if (addedBlockFromToolboxStatus === 'dragEnd') {
+            const { droppedPosition, droppedBlockIdx } = this;
+            this.props.dispatch(canvasActions.insertNewBlock({ droppedBlockIdx, droppedPosition, block: addedBlockFromToolbox }));
+        }
     }
 
     _duplicateBlock(block) {
@@ -27,6 +66,12 @@ class Canvas extends Component {
     _dragStart(blockIdx) {
         this.draggedBlockIdx = blockIdx;
         document.getElementById(`container-${blockIdx}`).style.opacity = 0.1;
+        this.setState((state) => {
+            return {
+                ...state,
+                isBlockDragging: true
+            }
+        });
     }
 
     _dragEnd(blockIdx) {
@@ -37,9 +82,12 @@ class Canvas extends Component {
             return {
                 ...state,
                 highlightedDropZoneID: null,
-                dropZonesVisible: false
+                dropZonesVisible: false,
+                isBlockDragging: false
             }
         });
+        this.droppedPosition = null;
+        this.droppedBlockIdx = null;
     }
 
     _dragOver(event, position, blockIdx) {
@@ -66,7 +114,7 @@ class Canvas extends Component {
 
     render() {
         return (
-            <div className="canvas" style={{ width: '65%', backgroundColor: 'lightgray', float: 'right' }} >
+            <div className="canvas" style={{ width: '68%', backgroundColor: 'lightgray', float: 'right' }} >
                 <h3 style={{ padding: '10px' }}>Canvas</h3>
                 <ul onDragOver={this._showDropZones.bind(this)} >
                     {this.props.currBlocks.map((block) => (
@@ -87,7 +135,13 @@ class Canvas extends Component {
                                 <p style={{ textAlign: 'center' }}>DROP HERE</p>
                             </div>
                             <div
-                                style={{ padding: '20px 10px', border: '4px dashed #51d1fb', cursor: 'move', backgroundColor: block.color }}
+                                style={{ 
+                                    padding: '20px 10px', 
+                                    border: '4px dashed #51d1fb', 
+                                    cursor: 'move', 
+                                    backgroundColor: block.color,
+                                    opacity: this.state.isBlockDragging ? (this.draggedBlockIdx === block.index ? 1 : 0.75) : 1,
+                                }}
                                 draggable='true'
                                 onDragStart={(event) => this._dragStart(block.index)}
                                 onDragEnd={() => this._dragEnd(block.index)}
@@ -110,7 +164,7 @@ class Canvas extends Component {
                                     lineHeight: '2px',
                                     margin: '0',
                                     border: this.state.highlightedDropZoneID === `after-${block.index}` ? '4px dashed orange' : '4px dashed lightgray',
-                                    backgroundColor: this.state.highlightedDropZoneID === `after-${block.index}` ? 'yellow' : "lightgoldenrodyellow"
+                                     backgroundColor: this.state.highlightedDropZoneID === `after-${block.index}` ? 'yellow' : "lightgoldenrodyellow"
                                 }}
                             >
                                 <p style={{ textAlign: 'center' }}>DROP HERE</p>

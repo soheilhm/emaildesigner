@@ -37,7 +37,7 @@ const initialCustomizedBlocks = [
 ];
 
 const canvasBlocks = (state = initialCustomizedBlocks, action) => {
-    let idx, block;
+    let idx, block, draggedBlockIdx, droppedPosition, droppedBlockIdx, droppedBlock, dropIdx;
     switch (action.type) {
         case actionTypes.ADD_BLOCK:
             block = action.payload;
@@ -88,16 +88,16 @@ const canvasBlocks = (state = initialCustomizedBlocks, action) => {
             ];
 
         case actionTypes.SWAP_BLOCKS:
-            /*
-                // TODO: FIX THE SWAP
-                const { draggedBlockIdx, droppedPosition, droppedBlockIdx } = action.payload;
+                draggedBlockIdx= action.payload.draggedBlockIdx;
+                droppedPosition = action.payload.droppedPosition;
+                droppedBlockIdx = action.payload.droppedBlockIdx;
                 if (draggedBlockIdx === droppedBlockIdx) {
                     return state;
                 }
-                const draggedBlock = state.filter(elm => elm.index === draggedBlockIdx);
-                const droppedBlock = state.filter(elm => elm.index === droppedBlockIdx);
-                const tempState = [...state.filter(elm => elm !== draggedBlockIdx)];
-                const dropIdx = tempState.indexOf(droppedBlock);
+                const draggedBlock = state.filter(elm => elm.index === draggedBlockIdx)[0];
+                droppedBlock = state.filter(elm => elm.index === droppedBlockIdx)[0];
+                const tempState = state.filter((elm) => elm.index !== draggedBlock.index);
+                dropIdx = tempState.indexOf(droppedBlock);
                 if (droppedPosition === 'before') {
                     return [
                         ...tempState.slice(0, dropIdx),
@@ -111,8 +111,28 @@ const canvasBlocks = (state = initialCustomizedBlocks, action) => {
                         ...tempState.slice(dropIdx + 1)
                     ];
                 }
-            */
-            return state;
+
+        case actionTypes.INSERT_NEW_BLOCK:
+            console.log('RUNNING!!!');
+            droppedBlockIdx = action.payload.droppedBlockIdx;
+            droppedPosition = action.payload.droppedPosition;
+            block = action.payload.block;
+            droppedBlock = state.filter(elm => elm.index === droppedBlockIdx)[0];
+            dropIdx = state.indexOf(droppedBlock);
+            if (droppedPosition === 'before') {
+                return [
+                    ...state.slice(0, dropIdx),
+                    { ...block, index: generateID(), type: itemTypes.CUSTOMIZED_BLOCK },
+                    ...state.slice(dropIdx)
+                ];
+            } else {
+                return [
+                    ...state.slice(0, dropIdx + 1),
+                    { ...block, index: generateID(), type: itemTypes.CUSTOMIZED_BLOCK },
+                    ...state.slice(dropIdx + 1)
+                ];
+            }
+
         default:
             return state;
     }

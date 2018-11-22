@@ -4,12 +4,26 @@ import Toolbox from "./Toolbox/Toolbox";
 import UndoRedo from "./UndoRedo/UndoRedo";
 
 class Editor extends Component {
+    state = {
+        addedBlockFromToolbox: null,
+        addedBlockFromToolboxStatus: null,
+    }
+
+    _onDragBlockToCanvas(block, status) {
+        this.setState((state) => {
+            return {
+                addedBlockFromToolbox: block,
+                addedBlockFromToolboxStatus: status
+            }
+        });
+    }
+
     render() {
         return (
             <div className="main-edit-area" style={{ width: "100%" }}>
                 <UndoRedo />
-                <Toolbox />
-                <Canvas />
+                <Toolbox dragBlock={this._onDragBlockToCanvas.bind(this)}/>
+                <Canvas addedBlockFromToolbox={this.state.addedBlockFromToolbox} addedBlockFromToolboxStatus={this.state.addedBlockFromToolboxStatus} />
             </div>
         );
     }
