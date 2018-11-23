@@ -113,7 +113,6 @@ const canvasBlocks = (state = initialCustomizedBlocks, action) => {
                 }
 
         case actionTypes.INSERT_NEW_BLOCK:
-            console.log('RUNNING!!!');
             droppedBlockIdx = action.payload.droppedBlockIdx;
             droppedPosition = action.payload.droppedPosition;
             block = action.payload.block;

@@ -35,7 +35,7 @@ class Toolbox extends Component {
         return (
             <div className="toolbox" style={{ width: '31%', backgroundColor: 'lightblue', float: 'left' }}>
                 <h3 style={{ padding: '10px' }}>Toolbox</h3>
-                <ul>
+                    <ul style={{padding: '0 10px'}}>
                     {this.props.blocks.map((block, index) => (
                         <div 
                             key={block.index} 

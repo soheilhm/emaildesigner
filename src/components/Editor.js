@@ -18,12 +18,21 @@ class Editor extends Component {
         });
     }
 
+    _resetDragDrop(block, status) {
+        this.setState((state) => {
+            return {
+                addedBlockFromToolbox: null,
+                addedBlockFromToolboxStatus: null
+            }
+        });
+    }    
+
     render() {
         return (
             <div className="main-edit-area" style={{ width: "100%" }}>
                 <UndoRedo />
                 <Toolbox dragBlock={this._onDragBlockToCanvas.bind(this)}/>
-                <Canvas addedBlockFromToolbox={this.state.addedBlockFromToolbox} addedBlockFromToolboxStatus={this.state.addedBlockFromToolboxStatus} />
+                <Canvas resetDragDropFromToolbox={this._resetDragDrop.bind(this)} addedBlockFromToolbox={this.state.addedBlockFromToolbox} addedBlockFromToolboxStatus={this.state.addedBlockFromToolboxStatus} />
             </div>
         );
     }
