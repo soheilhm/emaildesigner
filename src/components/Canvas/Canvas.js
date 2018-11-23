@@ -75,6 +75,7 @@ class Canvas extends Component {
         });
         this.droppedPosition = null;
         this.droppedBlockIdx = null;
+        this.hoverBlockIdx = null;
         this.highlightedDropZoneID = null;
     }
 
@@ -99,14 +100,14 @@ class Canvas extends Component {
         return (
             <div className="canvas" style={{ width: '68%', backgroundColor: 'lightgray', float: 'right' }} >
                 <h3 style={{ padding: '10px' }}>Canvas</h3>
-                <ul onDragOver={this._showDropZones.bind(this)} style={{padding: '0 10px'}}>
+                <ul onDragOver={this._showDropZones.bind(this)} style={{ padding: '0 10px' }}>
                     {this.props.currBlocks.map((block) => (
                         <div key={block.index} id={`container-${block.index}`} style={{ margin: '1px' }}>
                             <div
                                 id={`before-${block.index}`}
                                 onDragOver={(event) => this._dragOver(event, 'before', block.index)}
                                 style={{
-                                    display: this.state.dropZonesVisible ? 'block' : 'none',
+                                    display: this.hoverBlockIdx === block.index && this.state.dropZonesVisible ? 'block' : 'none',
                                     opacity: this.highlightedDropZoneID === `before-${block.index}` ? 1 : 0.5,
                                     padding: '2px 0',
                                     lineHeight: '2px',
@@ -118,16 +119,16 @@ class Canvas extends Component {
                                 <p style={{ textAlign: 'center' }}>DROP HERE</p>
                             </div>
                             <div
-                                style={{ 
-                                    padding: '20px 10px', 
-                                    border: '4px dashed #51d1fb', 
-                                    cursor: 'move', 
+                                style={{
+                                    padding: '20px 10px',
+                                    border: '4px dashed #51d1fb',
+                                    cursor: 'move',
                                     backgroundColor: block.color,
-                                    opacity: this.state.isBlockDragging ? (this.draggedBlockIdx === block.index ? 1 : 0.75) : 1,
                                     position: 'relative'
                                 }}
                                 draggable='true'
                                 onDragStart={(event) => this._dragStart(block.index)}
+                                onDragOver={() => { this.hoverBlockIdx = block.index }}
                                 onDragEnd={() => this._dragEnd(block.index)}
                             >
                                 <li style={{ display: 'inline-block', width: '55%' }}>{block.content}</li>
@@ -142,13 +143,13 @@ class Canvas extends Component {
                                 id={`after-${block.index}`}
                                 onDragOver={(event) => this._dragOver(event, 'after', block.index)}
                                 style={{
-                                    display: this.state.dropZonesVisible ? 'block' : 'none',
+                                    display: this.hoverBlockIdx === block.index && this.state.dropZonesVisible ? 'block' : 'none',
                                     opacity: this.highlightedDropZoneID === `after-${block.index}` ? 1 : 0.5,
                                     padding: '2px 0',
                                     lineHeight: '2px',
                                     margin: '0',
                                     border: this.highlightedDropZoneID === `after-${block.index}` ? '4px dashed orange' : '4px dashed lightgray',
-                                     backgroundColor: this.highlightedDropZoneID === `after-${block.index}` ? 'yellow' : "lightgoldenrodyellow"
+                                    backgroundColor: this.highlightedDropZoneID === `after-${block.index}` ? 'yellow' : "lightgoldenrodyellow"
                                 }}
                             >
                                 <p style={{ textAlign: 'center' }}>DROP HERE</p>
