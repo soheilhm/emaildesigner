@@ -1,9 +1,9 @@
-import React, { Component } from "react";
+import React, { PureComponent } from "react";
 import Canvas from "./Canvas/Canvas";
 import Toolbox from "./Toolbox/Toolbox";
 import UndoRedo from "./UndoRedo/UndoRedo";
 
-class Editor extends Component {
+class Editor extends PureComponent {
     state = {
         addedBlockFromToolbox: null,
         addedBlockFromToolboxStatus: null,
@@ -25,13 +25,13 @@ class Editor extends Component {
                 addedBlockFromToolboxStatus: null
             }
         });
-    }    
+    }
 
     render() {
         return (
             <div className="main-edit-area" style={{ width: "100%" }}>
                 <UndoRedo />
-                <Toolbox dragBlock={this._onDragBlockToCanvas.bind(this)}/>
+                <Toolbox dragBlock={this._onDragBlockToCanvas.bind(this)} />
                 <Canvas resetDragDropFromToolbox={this._resetDragDrop.bind(this)} addedBlockFromToolbox={this.state.addedBlockFromToolbox} addedBlockFromToolboxStatus={this.state.addedBlockFromToolboxStatus} />
             </div>
         );

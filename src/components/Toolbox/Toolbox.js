@@ -1,12 +1,13 @@
-import React, { Component } from "react";
+import React, { PureComponent } from "react";
 import { connect } from 'react-redux';
 import * as canvasActions from '../../actions/index';
 
-class Toolbox extends Component {
+class Toolbox extends PureComponent {
     state = {
         isBlockDragging: false,
 
     }
+
     _addBlock(block) {
         this.props.dispatch(canvasActions.addBlock(block));
     }
@@ -34,14 +35,14 @@ class Toolbox extends Component {
     render() {
         return (
             <div className="toolbox" style={{ width: '31%', backgroundColor: 'lightblue', float: 'left' }}>
-                <h3 style={{ padding: '10px' }}>Toolbox</h3>
-                    <ul style={{padding: '0 10px'}}>
+                <h3 style={{ padding: '10px' }}>Toolbox (Static Blocks)</h3>
+                <ul style={{ padding: '0 10px' }}>
                     {this.props.blocks.map((block, index) => (
-                        <div 
-                            key={block.index} 
-                            style={{ 
-                                padding: '5px', 
-                                margin: '5px 0', 
+                        <div
+                            key={block.index}
+                            style={{
+                                padding: '5px',
+                                margin: '5px 0',
                                 border: '1px solid gray',
                                 cursor: 'move',
                                 backgroundColor: this.state.isBlockDragging ? (this.draggedBlockIdx === block.index ? 'lightpink' : 'lightgray') : 'lightgray'

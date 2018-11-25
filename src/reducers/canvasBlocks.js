@@ -88,29 +88,29 @@ const canvasBlocks = (state = initialCustomizedBlocks, action) => {
             ];
 
         case actionTypes.SWAP_BLOCKS:
-                draggedBlockIdx= action.payload.draggedBlockIdx;
-                droppedPosition = action.payload.droppedPosition;
-                droppedBlockIdx = action.payload.droppedBlockIdx;
-                if (draggedBlockIdx === droppedBlockIdx) {
-                    return state;
-                }
-                const draggedBlock = state.filter(elm => elm.index === draggedBlockIdx)[0];
-                droppedBlock = state.filter(elm => elm.index === droppedBlockIdx)[0];
-                const tempState = state.filter((elm) => elm.index !== draggedBlock.index);
-                dropIdx = tempState.indexOf(droppedBlock);
-                if (droppedPosition === 'before') {
-                    return [
-                        ...tempState.slice(0, dropIdx),
-                        { ...draggedBlock, index: generateID(), type: itemTypes.CUSTOMIZED_BLOCK },
-                        ...tempState.slice(dropIdx)
-                    ];
-                } else {
-                    return [
-                        ...tempState.slice(0, dropIdx + 1),
-                        { ...draggedBlock, index: generateID(), type: itemTypes.CUSTOMIZED_BLOCK },
-                        ...tempState.slice(dropIdx + 1)
-                    ];
-                }
+            draggedBlockIdx = action.payload.draggedBlockIdx;
+            droppedPosition = action.payload.droppedPosition;
+            droppedBlockIdx = action.payload.droppedBlockIdx;
+            if (draggedBlockIdx === droppedBlockIdx) {
+                return state;
+            }
+            const draggedBlock = state.filter(elm => elm.index === draggedBlockIdx)[0];
+            droppedBlock = state.filter(elm => elm.index === droppedBlockIdx)[0];
+            const tempState = state.filter((elm) => elm.index !== draggedBlock.index);
+            dropIdx = tempState.indexOf(droppedBlock);
+            if (droppedPosition === 'before') {
+                return [
+                    ...tempState.slice(0, dropIdx),
+                    { ...draggedBlock, index: generateID(), type: itemTypes.CUSTOMIZED_BLOCK },
+                    ...tempState.slice(dropIdx)
+                ];
+            } else {
+                return [
+                    ...tempState.slice(0, dropIdx + 1),
+                    { ...draggedBlock, index: generateID(), type: itemTypes.CUSTOMIZED_BLOCK },
+                    ...tempState.slice(dropIdx + 1)
+                ];
+            }
 
         case actionTypes.INSERT_NEW_BLOCK:
             droppedBlockIdx = action.payload.droppedBlockIdx;
@@ -144,6 +144,7 @@ export default undoable(canvasBlocks, {
         actionTypes.REMOVE_BLOCK,
         actionTypes.MOVE_UP_BLOCK,
         actionTypes.MOVE_DOWN_BLOCK,
-        actionTypes.SWAP_BLOCKS
+        actionTypes.SWAP_BLOCKS,
+        actionTypes.INSERT_NEW_BLOCK
     ])
 });
