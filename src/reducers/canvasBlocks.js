@@ -3,12 +3,33 @@ import * as actionTypes from "../constants/actionTypes/canvasBlocks";
 import * as itemTypes from '../constants/itemTypes/itemTypes';
 import generateID from "../common/uuid";
 
+function _generateRandomBlockData(id) {
+    let columns = [];
+    const columnNum = Math.floor(Math.random() * 3) + 1;
+    const randomColor = '#' + (Math.random() * 0xFFFFFF << 0).toString(16);
+    for (let i = 0; i < columnNum; ++i) {
+        columns.push({
+            type: 'test',
+            content: Math.random().toString(36).substring(7)
+        })
+    }
+
+    return JSON.stringify({
+        blockID: id,
+        background: `repeating-linear-gradient(45deg,${randomColor}, ${randomColor} 10px, #ccc 10px,#ccc 20px)`,
+        columnNum,
+        paddingTop: 30,
+        paddingBottom: 30,
+        columns
+    });
+}
+
 const initialCustomizedBlocks = [
     {
         index: "6fbe4417-57f7-4758-85d2-a2ef8e517dba",
         type: itemTypes.CUSTOMIZED_BLOCK,
         title: "Block1",
-        content: "Block1",
+        content: _generateRandomBlockData("6fbe4417-57f7-4758-85d2-a2ef8e517dba"),
         color: "#2774f1"
     },
 
@@ -16,7 +37,7 @@ const initialCustomizedBlocks = [
         index: "661b20e7-23c3-4505-a74d-c2f370993caf",
         type: itemTypes.CUSTOMIZED_BLOCK,
         title: "Block3",
-        content: "Block3",
+        content: _generateRandomBlockData("661b20e7-23c3-4505-a74d-c2f370993caf"),
         color: '#37a04c'
     },
 
@@ -24,14 +45,14 @@ const initialCustomizedBlocks = [
         index: "cdaf1bd7-1811-4255-9a0b-584779826380",
         type: itemTypes.CUSTOMIZED_BLOCK,
         title: "Block5",
-        content: "Block5",
+        content: _generateRandomBlockData("cdaf1bd7-1811-4255-9a0b-584779826380"),
         color: '#f87059'
     },
     {
         index: "c059b491-624a-4b64-a6f7-b8fa00baa79c",
         type: itemTypes.CUSTOMIZED_BLOCK,
         title: "Block7",
-        content: "Block7",
+        content: _generateRandomBlockData("c059b491-624a-4b64-a6f7-b8fa00baa79c"),
         color: "#f07ac9"
     }
 ];
