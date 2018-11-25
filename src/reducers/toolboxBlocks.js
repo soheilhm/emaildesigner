@@ -5,17 +5,17 @@ import generateID from "../common/uuid";
 function _generateRandomBlockData(id) {
     let columns = [];
     const columnNum = Math.floor(Math.random() * 3) + 1;
-    const randomColor = '#' + (Math.random() * 0xFFFFFF << 0).toString(16);
     for (let i = 0; i < columnNum; ++i) {
+        const randomColor = '#' + (Math.random() * 0xFFFFFF << 0).toString(16);
         columns.push({
             type: 'test',
+            background: `repeating-linear-gradient(45deg,${randomColor}, ${randomColor} 10px, #ccc 10px,#ccc 20px)`,
             content: Math.random().toString(36).substring(7)
         })
     }
 
     return JSON.stringify({
         blockID: id,
-        background: `repeating-linear-gradient(45deg,${randomColor}, ${randomColor} 10px, #ccc 10px,#ccc 20px)`,
         columnNum,
         paddingTop: 30,
         paddingBottom: 30,

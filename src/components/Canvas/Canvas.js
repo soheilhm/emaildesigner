@@ -88,7 +88,7 @@ class Canvas extends Component {
     }
 
     _hoverBlock(event, position, blockIdx) {
-        event.preventDefault();
+        // event.preventDefault();
         this.droppedPosition = position;
         this.droppedBlockIdx = blockIdx;
         this.highlightedBlockDropZoneID = `${position}-${blockIdx}`;
@@ -150,7 +150,6 @@ class Canvas extends Component {
                                     style={{
                                         border: '2px dashed #51d1fb',
                                         cursor: 'move',
-                                        backgroundColor: block.color,
                                         position: 'relative'
                                     }}
                                     draggable={this.state.blocksDraggable}

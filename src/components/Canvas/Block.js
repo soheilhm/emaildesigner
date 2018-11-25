@@ -44,7 +44,7 @@ export default class Block extends PureComponent {
     }
 
     render() {
-        const { blockID, paddingTop, paddingBottom, columnNum, columns, background } = this.props.data;
+        const { blockID, paddingTop, paddingBottom, columnNum, columns } = this.props.data;
         const BLOCK_WIDTH = 570;
         const BORDER_BOUNDRY_SIZE = 4;
         const blockContainerID = `${blockID}-container`;
@@ -73,7 +73,7 @@ export default class Block extends PureComponent {
                                         width: `calc(${BLOCK_WIDTH / columnNum}px - ${2 * BORDER_BOUNDRY_SIZE}px)`,
                                         height: '50px',
                                         border: `${BORDER_BOUNDRY_SIZE}px dashed #51d1fb`,
-                                        background: shouldComponetHighlight ? 'repeating-linear-gradient(45deg,orange, orange 10px, #ccc 10px,#ccc 20px)' : background,
+                                        background: shouldComponetHighlight ? 'repeating-linear-gradient(135deg,orange, orange 10px, #ccc 10px,#ccc 20px)' : column.background,
                                     }}
                                     draggable={this.props.canDrag}
                                     onDragStart={(event) => this._startComponentDrag(componentID)}
