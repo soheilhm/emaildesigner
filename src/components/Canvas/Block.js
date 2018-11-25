@@ -1,6 +1,6 @@
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
 
-export default class Block extends PureComponent {
+export default class Block extends Component {
     state = {
         componentHighlighted: false,
     }

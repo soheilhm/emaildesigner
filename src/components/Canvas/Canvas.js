@@ -54,7 +54,7 @@ class Canvas extends Component {
         clearSelection(); // window selection magically fucks up drag and drop!
         // Boosting performance
         const blocksUpdated = JSON.stringify(this.props.currBlocks) !== JSON.stringify(nextProps.currBlocks);
-        const blockIsBeingHovered = this.hoverBlockIdx !== null;
+        const blockIsBeingHovered = this.hoverBlockIdx !== null && this.state.blocksDraggable;
         return blockIsBeingHovered || blocksUpdated;
     }
 
@@ -152,7 +152,7 @@ class Canvas extends Component {
                                         cursor: 'move',
                                         position: 'relative'
                                     }}
-                                    draggable={this.state.blocksDraggable}
+                                    draggable={this.state.blocksDraggable && !this.state.isBlockDragging}
                                     onDragStart={() => this._startBlockDrag(block.index)}
                                     onDragOver={() => { this.hoverBlockIdx = block.index }}
                                     onDragEnd={() => this._endBlockDrag(block.index)}
