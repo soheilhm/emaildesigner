@@ -1,4 +1,5 @@
 import undoable, { includeAction } from "redux-undo";
+import Chance from "chance";
 import * as actionTypes from "../constants/actionTypes/canvasBlocks";
 import * as itemTypes from '../constants/itemTypes/itemTypes';
 import generateID from "../common/uuid";
@@ -7,19 +8,25 @@ function _generateRandomBlockData(id) {
     let columns = [];
     const columnNum = Math.floor(Math.random() * 3) + 1;
     for (let i = 0; i < columnNum; ++i) {
-        const randomColor = '#' + (Math.random() * 0xFFFFFF << 0).toString(16);
+        const randomColor = `#${(function co(lor) {
+            return (lor +=
+                [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 'a', 'b', 'c', 'd', 'e', 'f'][Math.floor(Math.random() * 16)])
+                && (lor.length === 6) ? lor : co(lor);
+        })('')}`;
         columns.push({
+            columnIdx: `col-${Math.random().toString(36).substring(7)}`,
             type: 'test',
-            background: `repeating-linear-gradient(45deg,${randomColor}, ${randomColor} 10px, #ccc 10px,#ccc 20px)`,
-            content: Math.random().toString(36).substring(7)
+            background: randomColor,
+            content: new Chance().name().split(' ')[0]
         })
     }
 
     return JSON.stringify({
         blockID: id,
+        background: 'repeating-linear-gradient(45deg,white, white 10px, lightgoldenrodyellow 10px,lightgoldenrodyellow 20px)',
         columnNum,
-        paddingTop: 30,
-        paddingBottom: 30,
+        paddingTop: 20,
+        paddingBottom: 20,
         columns
     });
 }
@@ -58,7 +65,7 @@ const initialCustomizedBlocks = [
 ];
 
 const canvasBlocks = (state = initialCustomizedBlocks, action) => {
-    let idx, block, draggedBlockIdx, droppedPosition, droppedBlockIdx, droppedBlock, dropIdx;
+    let idx, block, draggedBlockIdx, droppedPosition, droppedBlockIdx, draggedBlock, droppedBlock, dragIdx, dropIdx, tempState;
     switch (action.type) {
         case actionTypes.ADD_BLOCK:
             block = action.payload;
@@ -89,8 +96,8 @@ const canvasBlocks = (state = initialCustomizedBlocks, action) => {
             const prevBlock = state[idx - 1];
             return [
                 ...state.slice(0, idx - 1),
-                { ...block, index: generateID(), type: itemTypes.CUSTOMIZED_BLOCK },
-                { ...prevBlock, index: generateID() },
+                { ...block, type: itemTypes.CUSTOMIZED_BLOCK },
+                { ...prevBlock },
                 ...state.slice(idx + 1)
             ];
 
@@ -103,8 +110,8 @@ const canvasBlocks = (state = initialCustomizedBlocks, action) => {
             const nextBlock = state[idx + 1];
             return [
                 ...state.slice(0, idx),
-                { ...nextBlock, index: generateID() },
-                { ...block, index: generateID(), type: itemTypes.CUSTOMIZED_BLOCK },
+                { ...nextBlock },
+                { ...block, type: itemTypes.CUSTOMIZED_BLOCK },
                 ...state.slice(idx + 2)
             ];
 
@@ -115,20 +122,20 @@ const canvasBlocks = (state = initialCustomizedBlocks, action) => {
             if (draggedBlockIdx === droppedBlockIdx) {
                 return state;
             }
-            const draggedBlock = state.filter(elm => elm.index === draggedBlockIdx)[0];
+            draggedBlock = state.filter(elm => elm.index === draggedBlockIdx)[0];
             droppedBlock = state.filter(elm => elm.index === droppedBlockIdx)[0];
-            const tempState = state.filter((elm) => elm.index !== draggedBlock.index);
+            tempState = state.filter((elm) => elm.index !== draggedBlock.index);
             dropIdx = tempState.indexOf(droppedBlock);
             if (droppedPosition === 'before') {
                 return [
                     ...tempState.slice(0, dropIdx),
-                    { ...draggedBlock, index: generateID(), type: itemTypes.CUSTOMIZED_BLOCK },
+                    { ...draggedBlock, type: itemTypes.CUSTOMIZED_BLOCK },
                     ...tempState.slice(dropIdx)
                 ];
             } else {
                 return [
                     ...tempState.slice(0, dropIdx + 1),
-                    { ...draggedBlock, index: generateID(), type: itemTypes.CUSTOMIZED_BLOCK },
+                    { ...draggedBlock, type: itemTypes.CUSTOMIZED_BLOCK },
                     ...tempState.slice(dropIdx + 1)
                 ];
             }
@@ -153,6 +160,70 @@ const canvasBlocks = (state = initialCustomizedBlocks, action) => {
                 ];
             }
 
+        case actionTypes.SWAP_BLOCK_ITEMS:
+            const { draggedItem, droppedItem } = action.payload;
+            const { draggedBlockIndex, draggedColumnIdx, draggedContent } = draggedItem;
+            const { droppedBlockIndex, droppedColumnIdx, droppedContent } = droppedItem;
+            draggedBlock = state.filter(elm => elm.index === draggedBlockIndex)[0];
+            droppedBlock = state.filter(elm => elm.index === droppedBlockIndex)[0];
+            if (!draggedBlock || !droppedBlock) {
+                //TODO: fix the bug on adding new block fails and draggedBlockIndex == droppedBlockIndex that shouldnt be
+                console.log('FAIL!', {
+                    draggedBlockIndex,
+                    droppedBlockIndex
+                });
+                return state;
+            }
+            dragIdx = state.indexOf(draggedBlock);
+            dropIdx = state.indexOf(droppedBlock);
+            let draggedBlockContent = JSON.parse(draggedBlock.content);
+            let droppedBlockContent = JSON.parse(droppedBlock.content);
+
+            if (draggedBlockIndex === droppedBlockIndex) {
+                draggedBlockContent.columns.forEach((column) => {
+                    if (column.columnIdx === draggedColumnIdx) {
+                        column.content = droppedContent;
+                    } else if (column.columnIdx === droppedColumnIdx) {
+                        column.content = draggedContent;
+                    }
+                });
+                return [
+                    ...state.slice(0, dropIdx),
+                    {
+                        ...droppedBlock,
+                        content: JSON.stringify(draggedBlockContent),
+                    },
+                    ...state.slice(dropIdx + 1)
+                ];
+            }
+
+            draggedBlockContent.columns.forEach((column) => {
+                if (column.columnIdx === draggedColumnIdx) {
+                    column.content = droppedContent;
+                }
+            });
+            droppedBlockContent.columns.forEach((column) => {
+                if (column.columnIdx === droppedColumnIdx) {
+                    column.content = draggedContent;
+                }
+            });
+
+            tempState = [
+                ...state.slice(0, dragIdx),
+                {
+                    ...draggedBlock,
+                    content: JSON.stringify(draggedBlockContent),
+                },
+                ...state.slice(dragIdx + 1)
+            ];
+            return [
+                ...tempState.slice(0, dropIdx),
+                {
+                    ...droppedBlock,
+                    content: JSON.stringify(droppedBlockContent),
+                },
+                ...tempState.slice(dropIdx + 1)
+            ];
         default:
             return state;
     }
@@ -166,6 +237,7 @@ export default undoable(canvasBlocks, {
         actionTypes.MOVE_UP_BLOCK,
         actionTypes.MOVE_DOWN_BLOCK,
         actionTypes.SWAP_BLOCKS,
-        actionTypes.INSERT_NEW_BLOCK
+        actionTypes.INSERT_NEW_BLOCK,
+        actionTypes.SWAP_BLOCK_ITEMS
     ])
 });

@@ -1,4 +1,5 @@
 import undoable, { includeAction } from "redux-undo";
+import Chance from "chance";
 import * as itemTypes from '../constants/itemTypes/itemTypes';
 import generateID from "../common/uuid";
 
@@ -6,19 +7,25 @@ function _generateRandomBlockData(id) {
     let columns = [];
     const columnNum = Math.floor(Math.random() * 3) + 1;
     for (let i = 0; i < columnNum; ++i) {
-        const randomColor = '#' + (Math.random() * 0xFFFFFF << 0).toString(16);
+        const randomColor = `#${(function co(lor) {
+            return (lor +=
+                [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 'a', 'b', 'c', 'd', 'e', 'f'][Math.floor(Math.random() * 16)])
+                && (lor.length === 6) ? lor : co(lor);
+        })('')}`;
         columns.push({
+            columnIdx: `col-${Math.random().toString(36).substring(7)}`,
             type: 'test',
-            background: `repeating-linear-gradient(45deg,${randomColor}, ${randomColor} 10px, #ccc 10px,#ccc 20px)`,
-            content: Math.random().toString(36).substring(7)
+            background: randomColor,
+            content: new Chance().name().split(' ')[0]
         })
     }
 
     return JSON.stringify({
         blockID: id,
+        background: 'repeating-linear-gradient(45deg,white, white 10px, lightgoldenrodyellow 10px,lightgoldenrodyellow 20px)',
         columnNum,
-        paddingTop: 30,
-        paddingBottom: 30,
+        paddingTop: 20,
+        paddingBottom: 20,
         columns
     });
 }
