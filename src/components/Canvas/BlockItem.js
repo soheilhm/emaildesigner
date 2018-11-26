@@ -48,11 +48,11 @@ const mapStateToProps = state => {
 export default DragSource(itemTypes.CUSTOMIZED_BLOCK_CHILD,
     {
         beginDrag(props, _, connect) {
-            const { blockIndex, columnIdx, columnNum, content } = props;
+            const { blockIndex, columnIdx, columnNum, content, background } = props;
             connect.context.store.dispatch(canvasActions.updateDraggedElement({
                 type: itemTypes.CUSTOMIZED_BLOCK_CHILD,
                 value: {
-                    blockIndex, columnIdx, columnNum, content
+                    blockIndex, columnIdx, columnNum, content, background
                 },
                 source: itemTypes.ITEM_SOURCE_CANVAS
             }));

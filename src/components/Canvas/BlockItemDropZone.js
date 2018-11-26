@@ -41,17 +41,19 @@ export default DropTarget(itemTypes.CUSTOMIZED_BLOCK_CHILD,
             const state = connect.context.store.getState();
             const draggedElement = state.draggedElement.present;
             if (draggedElement.type === itemTypes.CUSTOMIZED_BLOCK_CHILD && draggedElement.source === itemTypes.ITEM_SOURCE_CANVAS) {
-                const { blockIndex, columnIdx, content } = draggedElement.value;
+                const { blockIndex, columnIdx, content, background } = draggedElement.value;
                 connect.context.store.dispatch(canvasActions.swapBlockItems({
                     draggedItem: {
                         draggedBlockIndex: blockIndex,
                         draggedColumnIdx: columnIdx,
-                        draggedContent: content
+                        draggedContent: content,
+                        draggedBackground: background
                     },
                     droppedItem: {
                         droppedBlockIndex: props.blockIndex,
                         droppedColumnIdx: props.columnIdx,
-                        droppedContent: props.content
+                        droppedContent: props.content,
+                        droppedBackground: props.background
                     }
                 }));
             }

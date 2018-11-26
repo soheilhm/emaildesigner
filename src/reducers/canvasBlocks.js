@@ -162,8 +162,8 @@ const canvasBlocks = (state = initialCustomizedBlocks, action) => {
 
         case actionTypes.SWAP_BLOCK_ITEMS:
             const { draggedItem, droppedItem } = action.payload;
-            const { draggedBlockIndex, draggedColumnIdx, draggedContent } = draggedItem;
-            const { droppedBlockIndex, droppedColumnIdx, droppedContent } = droppedItem;
+            const { draggedBlockIndex, draggedColumnIdx, draggedContent, draggedBackground } = draggedItem;
+            const { droppedBlockIndex, droppedColumnIdx, droppedContent, droppedBackground } = droppedItem;
             draggedBlock = state.filter(elm => elm.index === draggedBlockIndex)[0];
             droppedBlock = state.filter(elm => elm.index === droppedBlockIndex)[0];
             dragIdx = state.indexOf(draggedBlock);
@@ -175,8 +175,10 @@ const canvasBlocks = (state = initialCustomizedBlocks, action) => {
                 draggedBlockContent.columns.forEach((column) => {
                     if (column.columnIdx === draggedColumnIdx) {
                         column.content = droppedContent;
+                        column.background = droppedBackground;
                     } else if (column.columnIdx === droppedColumnIdx) {
                         column.content = draggedContent;
+                        column.background = draggedBackground;
                     }
                 });
                 return [
@@ -192,11 +194,13 @@ const canvasBlocks = (state = initialCustomizedBlocks, action) => {
             draggedBlockContent.columns.forEach((column) => {
                 if (column.columnIdx === draggedColumnIdx) {
                     column.content = droppedContent;
+                    column.background = droppedBackground;
                 }
             });
             droppedBlockContent.columns.forEach((column) => {
                 if (column.columnIdx === droppedColumnIdx) {
                     column.content = draggedContent;
+                    column.background = draggedBackground;
                 }
             });
 
