@@ -43,7 +43,7 @@ const initialStaticBlocks = [
         type: itemTypes.STATIC_BLOCK,
         title: "Block2",
         content: _generateRandomBlockData(generateID()),
-        color: '#afb09e'
+        color: '#483d8b'
     },
     {
         index: "STATIC_BLOCK_03",
@@ -57,7 +57,7 @@ const initialStaticBlocks = [
         type: itemTypes.STATIC_BLOCK,
         title: "Block4",
         content: _generateRandomBlockData(generateID()),
-        color: '#e2b8c2'
+        color: '#006400'
     },
     {
         index: "STATIC_BLOCK_05",
@@ -65,20 +65,6 @@ const initialStaticBlocks = [
         title: "Block5",
         content: _generateRandomBlockData(generateID()),
         color: '#f87059'
-    },
-    {
-        index: "STATIC_BLOCK_06",
-        type: itemTypes.STATIC_BLOCK,
-        title: "Block6",
-        content: _generateRandomBlockData(generateID()),
-        color: "#faaa42"
-    },
-    {
-        index: "STATIC_BLOCK_07",
-        type: itemTypes.STATIC_BLOCK,
-        title: "Block7",
-        content: _generateRandomBlockData(generateID()),
-        color: "#f07ac9"
     }
 ];
 

@@ -17,16 +17,19 @@ class ToolboxBlock extends Component {
         return connectDragSource(
             <div
                 style={{
-                    padding: '5px',
+                    padding: '20px 10px',
                     margin: '5px 0',
                     cursor: 'move',
                     backgroundColor: block.color,
-                    opacity: isDragging ? 0.25 : 1,
-                    border: isDragging ? '2px solid orange' : '2px solid lightgray'
+                    opacity: isDragging ? 0.25 : 1
                 }}
             >
                 <li style={{ display: 'inline-block', width: '50%', padding: '5px', margin: '0 5px' }}>{block.title}</li>
-                <button onClick={() => addBlock(block)} style={{ display: 'inline-block', padding: '7px 14px', margin: '0', float: 'right' }}>Add</button>
+                <button onClick={() => addBlock(block)} style={{ display: 'inline-block', padding: '2px', margin: '0', float: 'right' }}>
+                    <i className="material-icons">
+                        add
+                    </i>
+                </button>
             </div >
         );
     }
