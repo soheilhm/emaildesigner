@@ -7,10 +7,10 @@ import BlockItemDropZone from './BlockItemDropZone';
 
 class BlockItemContainer extends Component {
     render() {
-        const { data, draggedElement, isOver, connectDropTarget } = this.props;
-        const { blockID, paddingTop, paddingBottom, columnNum, columns } = data;
+        const { data, blockIndex, draggedElement, isOver, connectDropTarget } = this.props;
+        const { paddingTop, paddingBottom, columnNum, columns } = data;
         const elementIsBlockItem = draggedElement && draggedElement.type === itemTypes.CUSTOMIZED_BLOCK_CHILD;
-        const isDraggedFromCurrentBlock = elementIsBlockItem && draggedElement.value.blockIndex === blockID;
+        const isDraggedFromCurrentBlock = elementIsBlockItem && draggedElement.value.blockIndex === blockIndex;
         return connectDropTarget(
             <div>
                 <div
@@ -25,8 +25,8 @@ class BlockItemContainer extends Component {
                     <div style={{ margin: '0 auto', width: '570px' }} >
                         {columns.map((column) =>
                             <div key={column.columnIdx} style={{ position: 'relative', display: 'inline-block' }}>
-                                <BlockItemDropZone blockIndex={blockID} columnNum={columnNum} {...column} isOverBlockItem={isOver} shouldRender={elementIsBlockItem} />
-                                <BlockItem blockIndex={blockID} columnNum={columnNum} {...column} isDraggedFromCurrentBlock={isDraggedFromCurrentBlock} />
+                                <BlockItemDropZone blockIndex={blockIndex} columnNum={columnNum} {...column} isOverBlockItem={isOver} shouldRender={elementIsBlockItem} />
+                                <BlockItem blockIndex={blockIndex} columnNum={columnNum} {...column} isDraggedFromCurrentBlock={isDraggedFromCurrentBlock} />
                             </div>
                         )}
                     </div>

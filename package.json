@@ -1,9 +1,8 @@
 {
-  "name": "emaildesigner",
+  "name": "piKasso",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "chance": "^1.0.16",
     "react": "^16.6.1",
     "react-dnd": "^6.0.0",
     "react-dnd-html5-backend": "^6.0.0",
@@ -31,7 +30,9 @@
   ],
   "description": "This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).",
   "main": "index.js",
-  "devDependencies": {},
+  "devDependencies": {
+    "chance": "^1.0.16"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/soheilhm/emaildesigner.git"

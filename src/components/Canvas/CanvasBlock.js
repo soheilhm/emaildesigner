@@ -39,7 +39,7 @@ class CanvasBlock extends Component {
                     </button>
                 </div>
                 <li style={{ display: 'block', position: 'relative' }}>
-                    <BlockItemContainer data={blockData} />
+                    <BlockItemContainer blockIndex={block.index} data={blockData} />
                 </li>
                 <div style={{ position: 'absolute', top: 2, right: 2, zIndex: 2 }}>
                     <button onClick={() => this.props.dispatch(canvasActions.duplicateBlock(block))} style={{ display: 'inline-block' }}>
@@ -67,9 +67,7 @@ export default DragSource(itemTypes.CUSTOMIZED_BLOCK,
             return props.block;
         },
         endDrag(props, _, connect) {
-            if (connect) {
-                connect.context.store.dispatch(canvasActions.resetDraggedElement());
-            }
+            connect.context.store.dispatch(canvasActions.resetDraggedElement());
         }
     },
     (connect, monitor) => {

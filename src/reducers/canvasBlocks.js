@@ -166,14 +166,6 @@ const canvasBlocks = (state = initialCustomizedBlocks, action) => {
             const { droppedBlockIndex, droppedColumnIdx, droppedContent } = droppedItem;
             draggedBlock = state.filter(elm => elm.index === draggedBlockIndex)[0];
             droppedBlock = state.filter(elm => elm.index === droppedBlockIndex)[0];
-            if (!draggedBlock || !droppedBlock) {
-                //TODO: fix the bug on adding new block fails and draggedBlockIndex == droppedBlockIndex that shouldnt be
-                console.log('FAIL!', {
-                    draggedBlockIndex,
-                    droppedBlockIndex
-                });
-                return state;
-            }
             dragIdx = state.indexOf(draggedBlock);
             dropIdx = state.indexOf(droppedBlock);
             let draggedBlockContent = JSON.parse(draggedBlock.content);

@@ -7,9 +7,9 @@ import * as itemTypes from '../../constants/itemTypes/itemTypes';
 
 class ToolboxBlock extends Component {
     componentDidMount() {
-        const { title } = this.props.block;
+        const { title, color } = this.props.block;
         const img = new Image();
-        img.src = createHoverImage(`${title} - from toolbox`, 500, 100, "orange", "black", 24);
+        img.src = createHoverImage(`${title} - from toolbox`, 500, 100, color, "black", 24);
         this.props.connectDragPreview(img);
     }
     render() {
@@ -19,9 +19,10 @@ class ToolboxBlock extends Component {
                 style={{
                     padding: '5px',
                     margin: '5px 0',
-                    border: '1px solid gray',
                     cursor: 'move',
-                    backgroundColor: isDragging ? 'orange' : 'lightgray'
+                    backgroundColor: block.color,
+                    opacity: isDragging ? 0.25 : 1,
+                    border: isDragging ? '2px solid orange' : '2px solid lightgray'
                 }}
             >
                 <li style={{ display: 'inline-block', width: '50%', padding: '5px', margin: '0 5px' }}>{block.title}</li>
@@ -40,10 +41,7 @@ export default DragSource(itemTypes.STATIC_BLOCK,
             return props.block;
         },
         endDrag(props, _, connect) {
-            if (connect) {
-                connect.context.store.dispatch(canvasActions.resetDraggedElement());
-            }
-
+            connect.context.store.dispatch(canvasActions.resetDraggedElement());
         }
     },
     (connect, monitor) => {

@@ -7,10 +7,10 @@ import * as itemTypes from '../../constants/itemTypes/itemTypes';
 
 class BlockItem extends Component {
     componentDidMount() {
-        const { columnNum, content } = this.props;
+        const { columnNum, content, background } = this.props;
         const width = columnNum === 1 ? 250 : (columnNum === 2 ? 225 : 200);
         const img = new Image();
-        img.src = createHoverImage(`${content} (block item)`, width, 100, "lightblue", "black", 16);
+        img.src = createHoverImage(`${content} (block item)`, width, 100, background, "black", 16);
         this.props.connectDragPreview(img);
     }
 
@@ -59,9 +59,7 @@ export default DragSource(itemTypes.CUSTOMIZED_BLOCK_CHILD,
             return {};
         },
         endDrag(props, _, connect) {
-            if (connect) {
-                connect.context.store.dispatch(canvasActions.resetDraggedElement());
-            }
+            connect.context.store.dispatch(canvasActions.resetDraggedElement());
         }
     },
     (connect, monitor) => {
