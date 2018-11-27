@@ -6,35 +6,33 @@ import * as itemTypes from '../../constants/itemTypes/itemTypes';
 
 class BlockItem extends Component {
     render() {
-        const { columnIdx, columnNum, background, content, connectDragSource, isDragging, isDraggedFromCurrentBlock } = this.props;
+        const { columnIdx, columnNum, background, content, connectDragSource, isDragging } = this.props;
         const BLOCK_WIDTH = 570;
         const BORDER_BOUNDRY_SIZE = 2;
 
         return connectDragSource(
             <div
-                key={columnIdx}
-                id={columnIdx}
                 style={{
                     display: 'inline-block',
-                    border: isDraggedFromCurrentBlock ? `${BORDER_BOUNDRY_SIZE}px solid lightgray` : `${BORDER_BOUNDRY_SIZE}px solid ${background}`,
+                    border: isDragging ? `${BORDER_BOUNDRY_SIZE}px solid lightgray` : `${BORDER_BOUNDRY_SIZE}px solid ${background}`,
                     cursor: 'move',
-                    // opacity: isDragging ? 0.5 : 1,
+                    opacity: isDragging ? 0.25 : 1,
                     width: `calc(${BLOCK_WIDTH / columnNum}px - ${2 * BORDER_BOUNDRY_SIZE}px)`,
                     height: '75px',
-                    background: isDraggedFromCurrentBlock ? "repeating-linear-gradient(45deg, white, white 5px, lightgray 5px, lightgray 10px)" : background,
+                    background: background,
                 }}
             >
                 {/* Based on column.type different elements should be rendered, this is just for test: */}
-                <p 
-                    style={{ 
-                        padding: "10px", 
-                        textAlign: 'center', 
-                        color: isDragging ? 'transparent' : 'black', 
-                        fontSize: '16px', 
-                        fontWeight: "bold" 
-                        }}
+                <p
+                    style={{
+                        padding: "10px",
+                        textAlign: 'center',
+                        color: isDragging ? 'transparent' : 'black',
+                        fontSize: '16px',
+                        fontWeight: "bold"
+                    }}
                 >
-                    {content}
+                    {content} - {columnIdx}
                 </p>
             </div>
         );

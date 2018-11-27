@@ -2,13 +2,13 @@ import undoable, { includeAction } from "redux-undo";
 import * as itemTypes from '../constants/itemTypes/itemTypes';
 import generateID from "../common/uuid";
 
-const blockItemTypes=['IMAGE', 'TEXT', 'BUTTON', 'SOCIAL'];
+const blockItemTypes = ['IMAGE', 'TEXT', 'BUTTON', 'SOCIAL'];
 
 function getRandomColor() {
     var letters = '0123456789ABCDEF';
     var color = '#';
     for (var i = 0; i < 6; i++) {
-      color += letters[Math.floor(Math.random() * 16)];
+        color += letters[Math.floor(Math.random() * 16)];
     }
     return color;
 }
@@ -20,10 +20,10 @@ function _generateRandomBlockData(id) {
         const blockItem = blockItemTypes[Math.floor(Math.random() * blockItemTypes.length)];
         const columnID = Math.random().toString(36).substring(7);
         columns.push({
-            columnIdx: `col-${columnID}`,
+            columnIdx: columnID,
             type: 'test',
             background: getRandomColor(),
-            content: `${blockItem} {${columnID}}`
+            content: `${blockItem}`
         })
     }
 

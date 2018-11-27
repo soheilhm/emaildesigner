@@ -10,7 +10,6 @@ class BlockItemContainer extends Component {
         const { data, blockIndex, draggedElement, isOver, connectDropTarget } = this.props;
         const { paddingTop, paddingBottom, columnNum, columns } = data;
         const elementIsBlockItem = draggedElement && draggedElement.type === itemTypes.CUSTOMIZED_BLOCK_CHILD;
-        const isDraggedFromCurrentBlock = elementIsBlockItem && draggedElement.value.blockIndex === blockIndex;
         return connectDropTarget(
             <div>
                 <div
@@ -23,7 +22,7 @@ class BlockItemContainer extends Component {
                     }}
                 >
                     <div style={{ margin: '0 auto', width: '570px' }} >
-                        {columns.map((column) =>
+                        {columns.map((column, index) =>
                             <div
                                 key={column.columnIdx}
                                 style={{
@@ -33,7 +32,7 @@ class BlockItemContainer extends Component {
                                 }}
                             >
                                 <BlockItemDropZone blockIndex={blockIndex} columnNum={columnNum} {...column} isOverBlockItem={isOver} shouldRender={elementIsBlockItem} />
-                                <BlockItem blockIndex={blockIndex} columnNum={columnNum} {...column} isDraggedFromCurrentBlock={isDraggedFromCurrentBlock} />
+                                <BlockItem blockIndex={blockIndex} columnNum={columnNum} {...column} />
                             </div>
                         )}
                     </div>

@@ -1,52 +1,52 @@
 {
-  "name": "piKasso",
-  "version": "0.1.0",
-  "private": true,
-  "dependencies": {
-    "react": "^16.6.1",
-    "react-dnd": "^6.0.0",
-    "react-dnd-html5-backend": "^6.0.0",
-    "react-dom": "^16.6.1",
-    "react-redux": "^5.1.1",
-    "react-scripts": "2.1.1",
-    "redux": "^4.0.1",
-    "redux-actions": "^2.6.4",
-    "redux-undo": "^0.6.1"
-  },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
-  },
-  "eslintConfig": {
-    "extends": "react-app"
-  },
-  "browserslist": [
-    ">0.2%",
-    "not dead",
-    "not ie <= 11",
-    "not op_mini all"
-  ],
-  "description": "This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).",
-  "main": "index.js",
-  "devDependencies": {},
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/soheilhm/emaildesigner.git"
-  },
-  "keywords": [
-    "emaildesigner",
-    "dragndrop",
-    "html5",
-    "email",
-    "markup",
-    "cms"
-  ],
-  "author": "Soheil Hajimohammadi",
-  "license": "GPL-3.0",
-  "bugs": {
-    "url": "https://github.com/soheilhm/emaildesigner/issues"
-  },
-  "homepage": "https://github.com/soheilhm/emaildesigner#readme"
+    "name": "piKasso",
+    "version": "0.1.0",
+    "private": true,
+    "dependencies": {
+        "react": "^16.6.1",
+        "react-dnd": "^6.0.0",
+        "react-dnd-html5-backend": "^6.0.0",
+        "react-dom": "^16.6.1",
+        "react-redux": "^5.1.1",
+        "react-scripts": "2.1.1",
+        "redux": "^4.0.1",
+        "redux-actions": "^2.6.4",
+        "redux-undo": "^0.6.1"
+    },
+    "scripts": {
+        "start": "react-scripts start",
+        "build": "react-scripts build",
+        "test": "react-scripts test",
+        "eject": "react-scripts eject"
+    },
+    "eslintConfig": {
+        "extends": "react-app"
+    },
+    "browserslist": [
+        ">0.2%",
+        "not dead",
+        "not ie <= 11",
+        "not op_mini all"
+    ],
+    "description": "TA flexible Drag and drop Javascript Library to build complicated lists.",
+    "main": "index.js",
+    "devDependencies": {},
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/soheilhm/emaildesigner.git"
+    },
+    "keywords": [
+        "emaildesigner",
+        "dragndrop",
+        "html5",
+        "email",
+        "markup",
+        "cms"
+    ],
+    "author": "Soheil Hajimohammadi",
+    "license": "GPL-3.0",
+    "bugs": {
+        "url": "https://github.com/soheilhm/emaildesigner/issues"
+    },
+    "homepage": "https://github.com/soheilhm/emaildesigner#readme"
 }

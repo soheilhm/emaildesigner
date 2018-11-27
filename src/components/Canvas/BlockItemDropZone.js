@@ -6,7 +6,7 @@ import * as itemTypes from '../../constants/itemTypes/itemTypes';
 
 class BlockItemDropZone extends Component {
     render() {
-        const { isOverCurrent, shouldRender, isOverBlockItem, connectDropTarget } = this.props;
+        const { isOver, isOverCurrent, shouldRender, isOverBlockItem, connectDropTarget } = this.props;
 
         if (!shouldRender) {
             return null;
@@ -19,8 +19,8 @@ class BlockItemDropZone extends Component {
                     position: 'absolute',
                     width: '100%',
                     height: '100%',
-                    border: isOverCurrent ? '2px solid #12ff41' : '2px solid lightgray',
-                    background: isOverCurrent ? "repeating-linear-gradient(45deg, white, white 5px, #12ff41 5px, #12ff41 10px)" : "repeating-linear-gradient(45deg, white, white 5px, lightgray 5px, lightgray 10px)"
+                    border: isOverCurrent && isOver ? '2px solid #12ff41' : '2px solid lightgray',
+                    background: isOverCurrent && isOver ? "repeating-linear-gradient(45deg, white, white 5px, #12ff41 5px, #12ff41 10px)" : "repeating-linear-gradient(45deg, white, white 5px, lightgray 5px, lightgray 10px)"
                 }}
             >
             </div>
@@ -62,6 +62,7 @@ export default DropTarget(itemTypes.CUSTOMIZED_BLOCK_CHILD,
     (connect, monitor) => {
         return {
             connectDropTarget: connect.dropTarget(),
+            isOver: monitor.isOver(),
             isOverCurrent: monitor.isOver({ shallow: true }),
             canDrop: monitor.canDrop()
         }
