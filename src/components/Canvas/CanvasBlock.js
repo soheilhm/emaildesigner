@@ -10,7 +10,7 @@ class CanvasBlock extends Component {
     componentDidMount() {
         const { title } = this.props.block;
         const img = new Image();
-        img.src = createHoverImage(`${title} (canvas block)`, 500, 100, "pink", "black", 24);
+        img.src = createHoverImage(`${title} (canvas block)`, 500, 100, "#b67fe0", "black", 24);
         this.props.connectDragPreview(img);
     }
 
@@ -20,7 +20,7 @@ class CanvasBlock extends Component {
         return connectDragSource(
             <div
                 style={{
-                    border: isDragging ? '2px dashed pink' : '2px dashed #51d1fb',
+                    border: isDragging ? '2px solid #b67fe0' : '2px solid #e0cb7f',
                     opacity: isDragging ? 0.5 : 1,
                     cursor: 'move',
                     position: 'relative'

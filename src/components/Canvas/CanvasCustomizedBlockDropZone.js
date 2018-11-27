@@ -20,8 +20,8 @@ class CanvasCustomizedBlockDropZone extends Component {
                     lineHeight: '40px',
                     height: '60px',
                     margin: '0',
-                    border: isOverCurrent ? '4px dashed pink' : '4px dashed lightgray',
-                    background: isOverCurrent ? "repeating-linear-gradient(45deg, white, white 5px, pink 5px, pink 10px)" : "repeating-linear-gradient(45deg, white, white 5px, lightgray 5px, lightgray 10px)"
+                    border: isOverCurrent ? '2px solid #e6a9fc' : '2px solid lightgray',
+                    background: isOverCurrent ? "repeating-linear-gradient(45deg, white, white 5px, #e6a9fc 5px, #e6a9fc 10px)" : "repeating-linear-gradient(45deg, white, white 5px, lightgray 5px, lightgray 10px)"
                 }}
             >
                 <p style={{ textAlign: 'center' }}>DROP HERE</p>

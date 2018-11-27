@@ -1,23 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { DragSource } from 'react-dnd';
-import createHoverImage from '../../common/createHoverImage';
 import * as canvasActions from '../../actions/index';
 import * as itemTypes from '../../constants/itemTypes/itemTypes';
 
 class BlockItem extends Component {
-    componentDidMount() {
-        const { columnNum, content } = this.props;
-        const width = columnNum === 1 ? 250 : (columnNum === 2 ? 225 : 200);
-        const img = new Image();
-        img.src = createHoverImage(`${content} (block item)`, width, 100, "#12ff41", "black", 16);
-        this.props.connectDragPreview(img);
-    }
-
     render() {
         const { columnIdx, columnNum, background, content, connectDragSource, isDragging, isDraggedFromCurrentBlock } = this.props;
         const BLOCK_WIDTH = 570;
-        const BORDER_BOUNDRY_SIZE = 4;
+        const BORDER_BOUNDRY_SIZE = 2;
 
         return connectDragSource(
             <div
@@ -25,16 +16,26 @@ class BlockItem extends Component {
                 id={columnIdx}
                 style={{
                     display: 'inline-block',
-                    border: isDraggedFromCurrentBlock ? `${BORDER_BOUNDRY_SIZE}px dashed pink` : `${BORDER_BOUNDRY_SIZE}px dashed #51d1fb`,
+                    border: isDraggedFromCurrentBlock ? `${BORDER_BOUNDRY_SIZE}px solid lightgray` : `${BORDER_BOUNDRY_SIZE}px solid ${background}`,
                     cursor: 'move',
-                    opacity: isDragging ? 0.5 : 1,
+                    // opacity: isDragging ? 0.5 : 1,
                     width: `calc(${BLOCK_WIDTH / columnNum}px - ${2 * BORDER_BOUNDRY_SIZE}px)`,
                     height: '75px',
                     background: isDraggedFromCurrentBlock ? "repeating-linear-gradient(45deg, white, white 5px, lightgray 5px, lightgray 10px)" : background,
                 }}
             >
                 {/* Based on column.type different elements should be rendered, this is just for test: */}
-                <p style={{ padding: "10px", textAlign: 'center', color: 'black', fontSize: '16px', fontWeight: "bold" }}>{content}</p>
+                <p 
+                    style={{ 
+                        padding: "10px", 
+                        textAlign: 'center', 
+                        color: isDragging ? 'transparent' : 'black', 
+                        fontSize: '16px', 
+                        fontWeight: "bold" 
+                        }}
+                >
+                    {content}
+                </p>
             </div>
         );
     }
@@ -57,7 +58,7 @@ export default DragSource(itemTypes.CUSTOMIZED_BLOCK_CHILD,
                 },
                 source: itemTypes.ITEM_SOURCE_CANVAS
             }));
-            return {};
+            return props;
         },
         endDrag(props, _, connect) {
             connect.context.store.dispatch(canvasActions.resetDraggedElement());

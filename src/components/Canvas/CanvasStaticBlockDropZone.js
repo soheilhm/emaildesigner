@@ -20,7 +20,7 @@ class CanvasStaticBlockDropZone extends Component {
                     lineHeight: '40px',
                     height: '60px',
                     margin: '0',
-                    border: isOverCurrent ? '4px dashed orange' : '4px dashed lightgray',
+                    border: isOverCurrent ? '2px solid orange' : '2px solid lightgray',
                     background: isOverCurrent ? "repeating-linear-gradient(45deg, white, white 5px, orange 5px, orange 10px)" : "repeating-linear-gradient(45deg, white, white 5px, lightgray 5px, lightgray 10px)"
                 }}
             >

@@ -16,9 +16,9 @@ class BlockItemContainer extends Component {
                 <div
                     style={{
                         padding: `${paddingTop}px 10px ${paddingBottom}px`,
-                        border: "2px dashed lightsteelblue",
+                        border: "2px solid #e0cb7f",
                         cursor: 'move',
-                        background: "repeating-linear-gradient(45deg, white, white 5px, lightsteelblue 5px, lightsteelblue 10px)",
+                        background: "repeating-linear-gradient(45deg, white, white 5px, #e0cb7f 5px, #e0cb7f 10px)",
                         position: 'relative'
                     }}
                 >

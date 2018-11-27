@@ -20,11 +20,12 @@ class ToolboxBlock extends Component {
                     padding: '20px 10px',
                     margin: '5px 0',
                     cursor: 'move',
-                    backgroundColor: block.color,
+                    border: "2px solid #ff8c00",
+                    background: "#ff8c00",
                     opacity: isDragging ? 0.25 : 1
                 }}
             >
-                <li style={{ display: 'inline-block', width: '50%', padding: '5px', margin: '0 5px' }}>{block.title}</li>
+                <li style={{ display: 'inline-block', width: '50%', padding: '5px', margin: '0 5px', fontWeight: 'bold', color: '#1a00ff'}}>{block.title}</li>
                 <button onClick={() => addBlock(block)} style={{ display: 'inline-block', padding: '2px', margin: '0', float: 'right' }}>
                     <i className="material-icons">
                         add

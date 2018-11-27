@@ -11,7 +11,7 @@ class CanvasBlockContainer extends Component {
         const { block, connectDropTarget, isOver, draggedElement } = this.props;
         const elementType = draggedElement && draggedElement.type;
         return connectDropTarget(
-            <div id={`container-${block.index}`} style={{ margin: '1px' }}>
+            <div>
                 <CanvasStaticBlockDropZone blockIndex={block.index} position="before" isOverBlock={isOver} shouldRender={elementType === itemTypes.STATIC_BLOCK} />
                 <CanvasCustomizedBlockDropZone blockIndex={block.index} position="before" isOverBlock={isOver} shouldRender={elementType === itemTypes.CUSTOMIZED_BLOCK} />
                 <CanvasBlock block={block} />

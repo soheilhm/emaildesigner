@@ -1,22 +1,29 @@
 import undoable, { includeAction } from "redux-undo";
-import Chance from "chance";
 import * as itemTypes from '../constants/itemTypes/itemTypes';
 import generateID from "../common/uuid";
+
+const blockItemTypes=['IMAGE', 'TEXT', 'BUTTON', 'SOCIAL'];
+
+function getRandomColor() {
+    var letters = '0123456789ABCDEF';
+    var color = '#';
+    for (var i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+}
 
 function _generateRandomBlockData(id) {
     let columns = [];
     const columnNum = Math.floor(Math.random() * 3) + 1;
     for (let i = 0; i < columnNum; ++i) {
-        const randomColor = `#${(function co(lor) {
-            return (lor +=
-                [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 'a', 'b', 'c', 'd', 'e', 'f'][Math.floor(Math.random() * 16)])
-                && (lor.length === 6) ? lor : co(lor);
-        })('')}`;
+        const blockItem = blockItemTypes[Math.floor(Math.random() * blockItemTypes.length)];
+        const columnID = Math.random().toString(36).substring(7);
         columns.push({
-            columnIdx: `col-${Math.random().toString(36).substring(7)}`,
+            columnIdx: `col-${columnID}`,
             type: 'test',
-            background: randomColor,
-            content: new Chance().name().split(' ')[0]
+            background: getRandomColor(),
+            content: `${blockItem} {${columnID}}`
         })
     }
 
@@ -35,36 +42,31 @@ const initialStaticBlocks = [
         index: "STATIC_BLOCK_01",
         type: itemTypes.STATIC_BLOCK,
         title: "Block1",
-        content: _generateRandomBlockData(generateID()),
-        color: "#2774f1"
+        content: _generateRandomBlockData(generateID())
     },
     {
         index: "STATIC_BLOCK_02",
         type: itemTypes.STATIC_BLOCK,
         title: "Block2",
-        content: _generateRandomBlockData(generateID()),
-        color: '#483d8b'
+        content: _generateRandomBlockData(generateID())
     },
     {
         index: "STATIC_BLOCK_03",
         type: itemTypes.STATIC_BLOCK,
         title: "Block3",
-        content: _generateRandomBlockData(generateID()),
-        color: '#37a04c'
+        content: _generateRandomBlockData(generateID())
     },
     {
         index: "STATIC_BLOCK_04",
         type: itemTypes.STATIC_BLOCK,
         title: "Block4",
-        content: _generateRandomBlockData(generateID()),
-        color: '#006400'
+        content: _generateRandomBlockData(generateID())
     },
     {
         index: "STATIC_BLOCK_05",
         type: itemTypes.STATIC_BLOCK,
         title: "Block5",
-        content: _generateRandomBlockData(generateID()),
-        color: '#f87059'
+        content: _generateRandomBlockData(generateID())
     }
 ];
 
