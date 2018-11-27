@@ -24,7 +24,14 @@ class BlockItemContainer extends Component {
                 >
                     <div style={{ margin: '0 auto', width: '570px' }} >
                         {columns.map((column) =>
-                            <div key={column.columnIdx} style={{ position: 'relative', display: 'inline-block' }}>
+                            <div
+                                key={column.columnIdx}
+                                style={{
+                                    position: 'relative',
+                                    display: 'inline-block',
+                                    height: 75
+                                }}
+                            >
                                 <BlockItemDropZone blockIndex={blockIndex} columnNum={columnNum} {...column} isOverBlockItem={isOver} shouldRender={elementIsBlockItem} />
                                 <BlockItem blockIndex={blockIndex} columnNum={columnNum} {...column} isDraggedFromCurrentBlock={isDraggedFromCurrentBlock} />
                             </div>

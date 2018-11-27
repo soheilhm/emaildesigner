@@ -19,8 +19,8 @@ class BlockItemDropZone extends Component {
                     position: 'absolute',
                     width: '100%',
                     height: '100%',
-                    border: isOverCurrent ? '4px dashed orange' : '4px dashed lightgray',
-                    background: isOverCurrent ? "repeating-linear-gradient(45deg, white, white 5px, orange 5px, orange 10px)" : "repeating-linear-gradient(45deg, white, white 5px, lightgray 5px, lightgray 10px)"
+                    border: isOverCurrent ? '4px dashed #12ff41' : '4px dashed lightgray',
+                    background: isOverCurrent ? "repeating-linear-gradient(45deg, white, white 5px, #12ff41 5px, #12ff41 10px)" : "repeating-linear-gradient(45deg, white, white 5px, lightgray 5px, lightgray 10px)"
                 }}
             >
             </div>

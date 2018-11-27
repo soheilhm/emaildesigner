@@ -7,9 +7,9 @@ import * as itemTypes from '../../constants/itemTypes/itemTypes';
 
 class ToolboxBlock extends Component {
     componentDidMount() {
-        const { title, color } = this.props.block;
+        const { title } = this.props.block;
         const img = new Image();
-        img.src = createHoverImage(`${title} - from toolbox`, 500, 100, color, "black", 24);
+        img.src = createHoverImage(`${title} - from toolbox`, 500, 100, "#ffa500", "black", 24);
         this.props.connectDragPreview(img);
     }
     render() {

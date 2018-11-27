@@ -7,6 +7,7 @@ export default function create(text, width = 480, height = 320, backgroundColor 
     ctx.fillStyle = backgroundColor;
     ctx.fillRect(0, 0, width, height);
 
+    ctx.fillStyle = "#ffa500";
     ctx.rect(0, 0, width, height);
     ctx.lineWidth = 10;
     ctx.stroke();
