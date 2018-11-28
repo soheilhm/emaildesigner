@@ -3,7 +3,7 @@ import * as actionTypes from "../constants/actionTypes/canvasBlocks";
 import * as itemTypes from '../constants/itemTypes/itemTypes';
 import generateID from "../common/uuid";
 
-const blockItemTypes = ['IMAGE', 'TEXT', 'BUTTON', 'SOCIAL'];
+const blockItemTypes = ['A', 'B', 'C', 'D', 'E'];
 
 function getRandomColor() {
     var letters = '0123456789ABCDEF';
@@ -16,11 +16,12 @@ function getRandomColor() {
 
 function _generateRandomBlockData(id) {
     let columns = [];
-    const columnNum = Math.floor(Math.random() * 3) + 1;
+    const columnNum = Math.floor(Math.random() * 4) + 1;
     for (let i = 0; i < columnNum; ++i) {
         const blockItem = blockItemTypes[Math.floor(Math.random() * blockItemTypes.length)];
         columns.push({
             columnIdx: Math.random().toString(36).substring(7),
+            size: columnNum === 1 ? "1" :`1/${columnNum}`,
             type: 'test',
             background: getRandomColor(),
             content: `${blockItem}`
@@ -29,7 +30,7 @@ function _generateRandomBlockData(id) {
 
     return JSON.stringify({
         blockID: id,
-        background: 'repeating-linear-gradient(45deg,white, white 10px, lightgoldenrodyellow 10px,lightgoldenrodyellow 20px)',
+        backgroundColor: getRandomColor(),
         columnNum,
         paddingTop: 20,
         paddingBottom: 20,

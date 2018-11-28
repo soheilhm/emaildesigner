@@ -14,18 +14,30 @@ class ToolboxBlock extends Component {
     }
     render() {
         const { block, addBlock, connectDragSource, isDragging } = this.props;
+        const { backgroundColor } = JSON.parse(block.content);
         return connectDragSource(
             <div
                 style={{
                     padding: '20px 10px',
                     margin: '5px 0',
                     cursor: 'move',
-                    border: "2px solid #ff8c00",
-                    background: "repeating-linear-gradient(45deg, lightgray, lightgray 5px, #ff8c00 5px, #ff8c00 10px)",
+                    backgroundColor,
                     opacity: isDragging ? 0.25 : 1
                 }}
             >
-                <li style={{ display: 'inline-block', width: '50%', padding: '5px', margin: '0 5px', fontWeight: 'bold', color: '#1a00ff' }}>{block.title}</li>
+                <li
+                    style={{
+                        display: 'inline-block',
+                        width: '75%', padding: '5px',
+                        margin: '0 5px',
+                        fontWeight: 'bold',
+                        color: 'white',
+                        textShadow: '1px 1px 1px black',
+                        textAlign: 'center'
+                    }}
+                >
+                    {block.title}
+                </li>
                 <button onClick={() => addBlock(block)} style={{ display: 'inline-block', padding: '2px', margin: '0', float: 'right' }}>
                     <i className="material-icons">
                         add

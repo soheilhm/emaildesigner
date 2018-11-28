@@ -20,7 +20,6 @@ class CanvasBlock extends Component {
         return connectDragSource(
             <div
                 style={{
-                    border: isDragging ? '2px solid #b67fe0' : '2px solid #e0cb7f',
                     opacity: isDragging ? 0.5 : 1,
                     cursor: 'move',
                     position: 'relative'

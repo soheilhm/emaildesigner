@@ -9,8 +9,8 @@ class Toolbox extends Component {
     }
     render() {
         return (
-            <div className="toolbox" style={{ width: '31%', backgroundColor: 'lightblue', float: 'left' }}>
-                <h3 style={{ padding: '10px' }}>Toolbox (Static Blocks)</h3>
+            <div className="toolbox" style={{ width: '31%', border: '2px solid lightgray', background: 'repeating-linear-gradient(45deg, white, white 5px, lightgoldenrodyellow 5px, lightgoldenrodyellow 10px)', float: 'left' }}>
+                <h3 style={{ padding: '10px', textAlign: 'center', textShadow: '1px 1px 1px white' }}>Toolbox (Static Blocks)</h3>
                 <ul style={{ padding: '0 10px' }}>
                     {this.props.blocks.map((block) => (
                         <ToolboxBlock key={block.index} block={block} addBlock={this._addBlock.bind(this)} />

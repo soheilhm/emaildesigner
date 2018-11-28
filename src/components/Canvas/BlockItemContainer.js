@@ -8,16 +8,16 @@ import BlockItemDropZone from './BlockItemDropZone';
 class BlockItemContainer extends Component {
     render() {
         const { data, blockIndex, draggedElement, isOver, connectDropTarget } = this.props;
-        const { paddingTop, paddingBottom, columnNum, columns } = data;
+        const { paddingTop, paddingBottom, columnNum, columns, backgroundColor } = data;
         const elementIsBlockItem = draggedElement && draggedElement.type === itemTypes.CUSTOMIZED_BLOCK_CHILD;
         return connectDropTarget(
             <div>
                 <div
                     style={{
                         padding: `${paddingTop}px 10px ${paddingBottom}px`,
-                        border: "2px solid #e0cb7f",
                         cursor: 'move',
-                        background: "repeating-linear-gradient(45deg, white, white 5px, #e0cb7f 5px, #e0cb7f 10px)",
+                        border: '1px dashed lightgray',
+                        backgroundColor,
                         position: 'relative'
                     }}
                 >
@@ -32,7 +32,7 @@ class BlockItemContainer extends Component {
                                 }}
                             >
                                 <BlockItemDropZone blockIndex={blockIndex} columnNum={columnNum} {...column} isOverBlockItem={isOver} shouldRender={elementIsBlockItem} />
-                                <BlockItem blockIndex={blockIndex} columnNum={columnNum} {...column} />
+                                <BlockItem blockIndex={blockIndex} columnNum={columnNum} isLastItem={index === columns.length - 1} {...column} />
                             </div>
                         )}
                     </div>
