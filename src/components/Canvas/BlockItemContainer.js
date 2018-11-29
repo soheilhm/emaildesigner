@@ -22,7 +22,6 @@ class BlockItemContainer extends Component {
                     }}
                 >
                     <div style={{ margin: '0 auto', width: '570px' }} >
-                        {console.log({columns})}
                         {columns.map((column, index) => {
                             const isLastItem = index === columns.length - 1;
                             const isItemMergeable = !isLastItem && (column.type === columns[index +1].type);
