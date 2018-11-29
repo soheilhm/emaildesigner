@@ -16,9 +16,4 @@ const draggedElement = (state = initialDraggedElement, action) => {
     }
 };
 
-export default undoable(draggedElement, {
-    draggedElement: includeAction([
-        actionTypes.UPDATE_DRAGGED_ELEMENT,
-        actionTypes.RESET_DRAGGED_ELEMENT,
-    ])
-});
+export default draggedElement;

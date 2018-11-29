@@ -38,8 +38,8 @@ class ToolboxBlock extends Component {
                 >
                     {block.title}
                 </li>
-                <button onClick={() => addBlock(block)} style={{ display: 'inline-block', padding: '2px', margin: '0', float: 'right' }}>
-                    <i className="material-icons">
+                <button onClick={() => addBlock(block)} style={{ display: 'inline-block', padding: '4px', margin: '0', float: 'right' }}>
+                    <i className="material-icons" style={{fontSize: 16}}>
                         add
                     </i>
                 </button>

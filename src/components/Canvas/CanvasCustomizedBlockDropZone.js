@@ -38,7 +38,7 @@ export default DropTarget(itemTypes.CUSTOMIZED_BLOCK,
         drop: (props, _, connect) => {
             const { blockIndex, position } = props;
             const state = connect.context.store.getState();
-            const draggedElement = state.draggedElement.present;
+            const draggedElement = state.draggedElement;
             if (draggedElement.type === itemTypes.CUSTOMIZED_BLOCK) {
                 const draggedBlockIdx = draggedElement.value.index;
                 connect.context.store.dispatch(canvasActions.swapBlocks({

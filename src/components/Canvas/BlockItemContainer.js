@@ -22,8 +22,12 @@ class BlockItemContainer extends Component {
                     }}
                 >
                     <div style={{ margin: '0 auto', width: '570px' }} >
-                        {columns.map((column, index) =>
-                            <div
+                        {console.log({columns})}
+                        {columns.map((column, index) => {
+                            const isLastItem = index === columns.length - 1;
+                            const isItemMergeable = !isLastItem && (column.type === columns[index +1].type);
+                            return (
+                                <div
                                 key={column.columnIdx}
                                 style={{
                                     position: 'relative',
@@ -32,9 +36,10 @@ class BlockItemContainer extends Component {
                                 }}
                             >
                                 <BlockItemDropZone blockIndex={blockIndex} columnNum={columnNum} {...column} isOverBlockItem={isOver} shouldRender={elementIsBlockItem} />
-                                <BlockItem blockIndex={blockIndex} columnNum={columnNum} isLastItem={index === columns.length - 1} {...column} />
+                                <BlockItem blockIndex={blockIndex} columnNum={columnNum} isItemMergeable={isItemMergeable} {...column} />
                             </div>
-                        )}
+                            );
+                        })}
                     </div>
                 </div>
             </div>
@@ -44,7 +49,7 @@ class BlockItemContainer extends Component {
 
 const mapStateToProps = state => {
     return {
-        draggedElement: state.draggedElement.present
+        draggedElement: state.draggedElement
     };
 };
 

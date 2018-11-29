@@ -17,3 +17,7 @@ export const resetDraggedElement = createAction(types.RESET_DRAGGED_ELEMENT);
 
 /** move this to another file in the futute */
 export const swapBlockItems = createAction(types.SWAP_BLOCK_ITEMS);
+
+/** move this to another file in the futute */
+export const splitBlockItem = createAction(types.SPLIT_BLOCK_ITEM);
+export const mergeBlockItems = createAction(types.MERGE_BLOCK_ITEMS);

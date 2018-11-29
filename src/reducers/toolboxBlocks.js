@@ -22,7 +22,7 @@ function _generateRandomBlockData(id) {
         columns.push({
             columnIdx: columnID,
             size: columnNum === 1 ? "1" :`1/${columnNum}`,
-            type: 'test',
+            type: blockItem,
             background: getRandomColor(),
             content: `${blockItem}`
         })
@@ -78,6 +78,4 @@ const toolboxBlocks = (state = initialStaticBlocks, action) => {
     }
 };
 
-export default undoable(toolboxBlocks, {
-    toolboxBlocks: includeAction([])
-});
+export default toolboxBlocks;

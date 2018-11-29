@@ -22,7 +22,7 @@ function _generateRandomBlockData(id) {
         columns.push({
             columnIdx: Math.random().toString(36).substring(7),
             size: columnNum === 1 ? "1" :`1/${columnNum}`,
-            type: 'test',
+            type: blockItem,
             background: getRandomColor(),
             content: `${blockItem}`
         })
@@ -186,8 +186,8 @@ const canvasBlocks = (state = initialCustomizedBlocks, action) => {
         case actionTypes.SWAP_BLOCK_ITEMS:
             (() => {
                 const { draggedItem, droppedItem } = action.payload;
-                const { draggedBlockIndex, draggedColumnIdx, draggedContent, draggedBackground } = draggedItem;
-                const { droppedBlockIndex, droppedColumnIdx, droppedContent, droppedBackground } = droppedItem;
+                const { draggedBlockIndex, draggedColumnIdx, draggedContent, draggedBackground, draggedType } = draggedItem;
+                const { droppedBlockIndex, droppedColumnIdx, droppedContent, droppedBackground, droppedType } = droppedItem;
                 const draggedBlock = draftState.filter(elm => elm.index === draggedBlockIndex)[0];
                 const droppedBlock = draftState.filter(elm => elm.index === droppedBlockIndex)[0];
                 const dragIdx = draftState.indexOf(draggedBlock);
@@ -198,9 +198,11 @@ const canvasBlocks = (state = initialCustomizedBlocks, action) => {
                 if (draggedBlockIndex === droppedBlockIndex) {
                     draggedBlockContent.columns.forEach((column) => {
                         if (column.columnIdx === draggedColumnIdx) {
+                            column.type = droppedType; 
                             column.content = droppedContent;
                             column.background = droppedBackground;
                         } else if (column.columnIdx === droppedColumnIdx) {
+                            column.type = draggedType; 
                             column.content = draggedContent;
                             column.background = draggedBackground;
                         }
@@ -216,12 +218,14 @@ const canvasBlocks = (state = initialCustomizedBlocks, action) => {
                 } else {
                     draggedBlockContent.columns.forEach((column) => {
                         if (column.columnIdx === draggedColumnIdx) {
+                            column.type = droppedType;                            
                             column.content = droppedContent;
                             column.background = droppedBackground;
                         }
                     });
                     droppedBlockContent.columns.forEach((column) => {
                         if (column.columnIdx === droppedColumnIdx) {
+                            column.type = draggedType; 
                             column.content = draggedContent;
                             column.background = draggedBackground;
                         }
@@ -246,6 +250,130 @@ const canvasBlocks = (state = initialCustomizedBlocks, action) => {
                 }
             })();
             return draftState;
+        case actionTypes.SPLIT_BLOCK_ITEM:
+            (() => {
+                const { blockIndex, columnIdx } = action.payload;
+                const block = draftState.filter(elm => elm.index === blockIndex)[0];
+                const idx = draftState.indexOf(block);
+                let columnIterationIndex, targetColumn;
+                const content = JSON.parse(block.content);
+                content.columns.forEach((column, index) => {
+                    if (column.columnIdx === columnIdx) {
+                        columnIterationIndex = index;
+                        targetColumn = column;
+                    }
+                });
+
+                switch (content.columnNum) {
+                    case 1:
+                        content.columnNum = 2;
+                        content.columns = [
+                            {...targetColumn, columnIdx: Math.random().toString(36).substring(7), size: '1/2'},
+                            {...targetColumn, columnIdx: Math.random().toString(36).substring(7), size: '1/2'}
+                        ]
+                        break;
+                    case 2:
+                        if (targetColumn.size === '1/2') {
+                            content.columnNum = 3;
+                            content.columns = [
+                                ...content.columns.slice(0, columnIterationIndex),
+                                {...targetColumn, columnIdx: Math.random().toString(36).substring(7), size: '1/4'},
+                                {...targetColumn, columnIdx: Math.random().toString(36).substring(7), size: '1/4'},
+                                ...content.columns.slice(columnIterationIndex + 1)
+                            ];
+                        } else if (targetColumn.size === '3/4') {
+                            content.columnNum = 3;
+                            content.columns = [
+                                ...content.columns.slice(0, columnIterationIndex),
+                                {...targetColumn, columnIdx: Math.random().toString(36).substring(7), size: '1/2'},
+                                {...targetColumn, columnIdx: Math.random().toString(36).substring(7), size: '1/4'},
+                                ...content.columns.slice(columnIterationIndex + 1)
+                            ];
+                        }
+                        break;
+                    case 3:
+                        content.columnNum = 4;
+                        content.columns = [
+                            ...content.columns.slice(0, columnIterationIndex),
+                            {...targetColumn, columnIdx: Math.random().toString(36).substring(7), size: '1/4'},
+                            {...targetColumn, columnIdx: Math.random().toString(36).substring(7), size: '1/4'},
+                            ...content.columns.slice(columnIterationIndex + 1)
+                        ];
+                        content.columns.map((column) => {
+                            column.size = '1/4';
+                            return column;
+                        });
+                        break;
+                    default:
+                }
+                draftState = [
+                    ...draftState.slice(0, idx),
+                    { ...block, content: JSON.stringify(content), index: generateID() },
+                    ...draftState.slice(idx + 1)
+                ];
+
+            })();
+            return draftState;
+
+        case actionTypes.MERGE_BLOCK_ITEMS:
+            (() => {
+                const { blockIndex, columnIdx } = action.payload;
+                const block = draftState.filter(elm => elm.index === blockIndex)[0];
+                const idx = draftState.indexOf(block);
+                let columnIterationIndex, targetColumn;
+                const content = JSON.parse(block.content);
+                content.columns.forEach((column, index) => {
+                    if (column.columnIdx === columnIdx) {
+                        columnIterationIndex = index;
+                        targetColumn = column;
+                    }
+                });
+                if (!content.columns[columnIterationIndex +1] || targetColumn.type !== content.columns[columnIterationIndex +1].type) {
+                    return draftState; // no next item to merge with or next item is different type than current item
+                }
+
+                switch (content.columnNum) {
+                    case 1:
+                        return draftState;
+                    case 2:
+                        content.columnNum = 1;
+                        content.columns = [{...targetColumn, columnIdx: Math.random().toString(36).substring(7), size: '1'} ];
+                        break;
+                    case 3:
+                        content.columnNum = 2;
+                        content.columns = [
+                            ...content.columns.slice(0, columnIterationIndex),
+                            {...targetColumn, columnIdx: Math.random().toString(36).substring(7), size: '1/2'},
+                            ...content.columns.slice(columnIterationIndex + 2)
+                        ];
+                        content.columns.map((column) => {
+                            column.size = '1/2';
+                            return column;
+                        });
+                        break;
+                    case 4:
+                        content.columnNum = 3;
+                        content.columns = [
+                            ...content.columns.slice(0, columnIterationIndex),
+                            {...targetColumn, columnIdx: Math.random().toString(36).substring(7), size: '1/3'},
+                            ...content.columns.slice(columnIterationIndex + 2)
+                        ];
+                        content.columns.map((column) => {
+                            column.size = '1/3';
+                            return column;
+                        });
+                        break;
+                    default:
+                }
+
+                draftState = [
+                    ...draftState.slice(0, idx),
+                    { ...block, content: JSON.stringify(content), index: generateID() },
+                    ...draftState.slice(idx + 1)
+                ];
+
+            })();
+            return draftState;
 
         default:
             return draftState;
@@ -259,8 +387,8 @@ export default undoable(canvasBlocks, {
         actionTypes.REMOVE_BLOCK,
         actionTypes.MOVE_UP_BLOCK,
         actionTypes.MOVE_DOWN_BLOCK,
-        actionTypes.SWAP_BLOCKS,
-        actionTypes.INSERT_NEW_BLOCK,
-        actionTypes.SWAP_BLOCK_ITEMS
+        actionTypes.SWAP_BLOCK_ITEMS,
+        actionTypes.SPLIT_BLOCK_ITEM,
+        actionTypes.MERGE_BLOCK_ITEMS
     ])
 });

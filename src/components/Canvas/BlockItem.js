@@ -14,13 +14,37 @@ class BlockItem extends Component {
     componentDidMount() {
         const { size } = this.props;
         const img = new Image();
-        const width = size === "1" ? 600 : (size === "1/2" ? 300 : (size === "1/3" ? 200 : 150));
-        img.src = createHoverImage(`item (size: ${size})`, width, 100, "lightgreen", "black", 18);
+        const BLOCK_WIDTH = 570;
+        let BlockItemWidth, dragPreviewWidth;
+        switch(size) {
+            case "1":
+                BlockItemWidth = BLOCK_WIDTH;
+                dragPreviewWidth = 600;
+                break;
+            case "3/4":
+                BlockItemWidth = BLOCK_WIDTH * (3 / 4);
+                dragPreviewWidth = 450;
+                break;
+            case "1/2":
+                BlockItemWidth = BLOCK_WIDTH / 2;
+                dragPreviewWidth = 300;
+                break;
+            case "1/3":
+                BlockItemWidth = BLOCK_WIDTH / 3;
+                dragPreviewWidth = 200;
+                break;
+            case "1/4":
+                BlockItemWidth = BLOCK_WIDTH / 4;
+                dragPreviewWidth = 150;
+                break;
+            default:
+        }
+        this.setState({ BlockItemWidth });
+        img.src = createHoverImage(`item (size: ${size})`, dragPreviewWidth, 100, "lightgreen", "black", 18);
         this.props.connectDragPreview(img);
     }
     render() {
-        const { isLastItem, columnIdx, columnNum, background, content, connectDragSource, isDragging } = this.props;
-        const BLOCK_WIDTH = 570;
+        const { blockIndex, columnIdx, size, isItemMergeable, columnNum, background, content, connectDragSource, isDragging } = this.props;
         const BORDER_BOUNDRY_SIZE = 2;
 
         return connectDragSource(
@@ -29,7 +53,7 @@ class BlockItem extends Component {
                     display: 'inline-block',
                     cursor: 'move',
                     opacity: isDragging ? 0.25 : 1,
-                    width: `calc(${BLOCK_WIDTH / columnNum}px - ${2 * BORDER_BOUNDRY_SIZE}px)`,
+                    width: `calc(${this.state.BlockItemWidth}px - ${2 * BORDER_BOUNDRY_SIZE}px)`,
                     height: '75px',
                     lineHeight: 0,
                     border: '1px dashed lightgray',
@@ -52,7 +76,7 @@ class BlockItem extends Component {
                     {content} - {columnIdx}
                 </p>
                 {
-                    this.state.overBlockItem && columnNum <= 3 &&
+                    this.state.overBlockItem && columnNum <= 3 && size !== '1/4' &&
                     <button
                         onMouseOver={() => this.setState({ overSplitIcon: true })}
                         onMouseLeave={() => this.setState({ overSplitIcon: false })}
@@ -68,6 +92,7 @@ class BlockItem extends Component {
                             padding: 2,
                             outline: 'none'
                         }}
+                        onClick={() => this.props.dispatch(canvasActions.splitBlockItem({blockIndex, columnIdx}))}
                     >
                         <i className="material-icons" style={{width: 16, height:16, fontSize: 16}}>
                             call_split
@@ -75,7 +100,7 @@ class BlockItem extends Component {
                     </button>
                 }
                 {
-                    this.state.overBlockItem && !isLastItem &&
+                    this.state.overBlockItem && isItemMergeable &&
                     <div
                         onMouseOver={() => this.setState({ overMergeIcon: true })}
                         onMouseLeave={() => this.setState({ overMergeIcon: false })}
@@ -93,6 +118,7 @@ class BlockItem extends Component {
                                 padding: 2,
                                 outline: 'none'
                             }}
+                            onClick={() => this.props.dispatch(canvasActions.mergeBlockItems({blockIndex, columnIdx}))}
                         >
                             <i className="material-icons" style={{width: 16, height:16, fontSize: 16}}>
                                 call_merge
@@ -107,18 +133,18 @@ class BlockItem extends Component {
 
 const mapStateToProps = state => {
     return {
-        draggedElement: state.draggedElement.present
+        draggedElement: state.draggedElement
     };
 };
 
 export default DragSource(itemTypes.CUSTOMIZED_BLOCK_CHILD,
     {
         beginDrag(props, _, connect) {
-            const { blockIndex, columnIdx, columnNum, content, background } = props;
+            const { blockIndex, columnIdx, columnNum, content, background, type } = props;
             connect.context.store.dispatch(canvasActions.updateDraggedElement({
                 type: itemTypes.CUSTOMIZED_BLOCK_CHILD,
                 value: {
-                    blockIndex, columnIdx, columnNum, content, background
+                    blockIndex, columnIdx, columnNum, content, background, type
                 },
                 source: itemTypes.ITEM_SOURCE_CANVAS
             }));

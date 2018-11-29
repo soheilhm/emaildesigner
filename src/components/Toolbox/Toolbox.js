@@ -22,7 +22,7 @@ class Toolbox extends Component {
 }
 
 const mapStateToProps = state => {
-    return { blocks: state.toolboxBlocks.present };
+    return { blocks: state.toolboxBlocks };
 };
 
 export default connect(mapStateToProps)(Toolbox);

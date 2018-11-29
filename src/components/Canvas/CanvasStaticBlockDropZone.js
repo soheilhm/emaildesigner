@@ -39,7 +39,7 @@ export default DropTarget(itemTypes.STATIC_BLOCK,
         drop: (props, _, connect) => {
             const { blockIndex, position } = props;
             const state = connect.context.store.getState();
-            const draggedElement = state.draggedElement.present;
+            const draggedElement = state.draggedElement;
             if (draggedElement.type === itemTypes.STATIC_BLOCK) {
                 connect.context.store.dispatch(canvasActions.insertNewBlock({
                     droppedBlockIdx: blockIndex,

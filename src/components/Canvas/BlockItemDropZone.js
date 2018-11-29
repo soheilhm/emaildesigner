@@ -30,7 +30,7 @@ class BlockItemDropZone extends Component {
 
 const mapStateToProps = state => {
     return {
-        draggedElement: state.draggedElement.present
+        draggedElement: state.draggedElement
     };
 };
 
@@ -39,21 +39,23 @@ export default DropTarget(itemTypes.CUSTOMIZED_BLOCK_CHILD,
         canDrop: (props) => true,
         drop: (props, _, connect) => {
             const state = connect.context.store.getState();
-            const draggedElement = state.draggedElement.present;
+            const draggedElement = state.draggedElement;
             if (draggedElement.type === itemTypes.CUSTOMIZED_BLOCK_CHILD && draggedElement.source === itemTypes.ITEM_SOURCE_CANVAS) {
-                const { blockIndex, columnIdx, content, background } = draggedElement.value;
+                const { blockIndex, columnIdx, content, background, type } = draggedElement.value;
                 connect.context.store.dispatch(canvasActions.swapBlockItems({
                     draggedItem: {
                         draggedBlockIndex: blockIndex,
                         draggedColumnIdx: columnIdx,
                         draggedContent: content,
-                        draggedBackground: background
+                        draggedBackground: background,
+                        draggedType: type
                     },
                     droppedItem: {
                         droppedBlockIndex: props.blockIndex,
                         droppedColumnIdx: props.columnIdx,
                         droppedContent: props.content,
-                        droppedBackground: props.background
+                        droppedBackground: props.background,
+                        droppedType: props.type
                     }
                 }));
             }

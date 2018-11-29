@@ -26,13 +26,13 @@ class CanvasBlock extends Component {
                 }}
             >
                 <div style={{ position: 'absolute', top: 2, left: 2, zIndex: 2 }}>
-                    <button onClick={() => this.props.dispatch(canvasActions.moveUpBlock(block))} style={{ display: 'inline-block' }}>
-                        <i className="material-icons" style={{ fontSize: '24px', cursor: 'pointer' }}>
+                    <button onClick={() => this.props.dispatch(canvasActions.moveUpBlock(block))} style={{ display: 'inline-block', padding: '4px' }}>
+                        <i className="material-icons" style={{ fontSize: '16px', cursor: 'pointer' }}>
                             arrow_upward
                         </i>
                     </button>
-                    <button onClick={() => this.props.dispatch(canvasActions.moveDownBlock(block))} style={{ display: 'inline-block' }}>
-                        <i className="material-icons" style={{ fontSize: '24px', cursor: 'pointer' }}>
+                    <button onClick={() => this.props.dispatch(canvasActions.moveDownBlock(block))} style={{ display: 'inline-block', padding: '4px' }}>
+                        <i className="material-icons" style={{ fontSize: '16px', cursor: 'pointer' }}>
                             arrow_downward
                         </i>
                     </button>
@@ -41,13 +41,13 @@ class CanvasBlock extends Component {
                     <BlockItemContainer blockIndex={block.index} data={blockData} />
                 </li>
                 <div style={{ position: 'absolute', top: 2, right: 2, zIndex: 2 }}>
-                    <button onClick={() => this.props.dispatch(canvasActions.duplicateBlock(block))} style={{ display: 'inline-block' }}>
-                        <i className="material-icons" style={{ fontSize: '24px', cursor: 'pointer' }}>
+                    <button onClick={() => this.props.dispatch(canvasActions.duplicateBlock(block))} style={{ display: 'inline-block', padding: '4px' }}>
+                        <i className="material-icons" style={{ fontSize: '16px', cursor: 'pointer' }}>
                             file_copy
                         </i>
                     </button>
-                    <button onClick={() => this.props.dispatch(canvasActions.removeBlock(block))} style={{ display: 'inline-block' }}>
-                        <i className="material-icons" style={{ fontSize: '24px', cursor: 'pointer' }}>
+                    <button onClick={() => this.props.dispatch(canvasActions.removeBlock(block))} style={{ display: 'inline-block', padding: '4px' }}>
+                        <i className="material-icons" style={{ fontSize: '16px', cursor: 'pointer' }}>
                             close
                         </i>
                     </button>

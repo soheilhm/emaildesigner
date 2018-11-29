@@ -25,7 +25,7 @@ class CanvasBlockContainer extends Component {
 const mapStateToProps = state => {
     return {
         canvasBlocks: state.canvasBlocks.present,
-        draggedElement: state.draggedElement.present
+        draggedElement: state.draggedElement
     };
 };
 
